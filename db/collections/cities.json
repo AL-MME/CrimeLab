@@ -1,0 +1,42 @@
+[
+    {
+        "_id": "city1",
+        "name": "Paris1",
+        "country": "France",
+        "lat": 48.86484381718093,
+        "lon": 2.331393583797125,
+        "postal_code": "75001"
+    },
+    {
+        "_id": "city2",
+        "name": "Versailles",
+        "country": "France",
+        "lat": 48.801408,
+        "lon": 2.130122,
+        "postal_code": "78000"
+    },
+    {
+        "_id": "city3",
+        "name": "Courbevoie",
+        "country": "France",
+        "lat": 48.896636,
+        "lon": 2.256944,
+        "postal_code": "92400"
+    },
+    {
+        "_id": "city4",
+        "name": "Puteaux",
+        "country": "France",
+        "lat": 48.884187,
+        "lon": 2.243661,
+        "postal_code": "92800"
+    },
+    {
+        "_id": "city5",
+        "name": "Montpellier",
+        "country": "France",
+        "lat": 43.6119,
+        "lon": 3.8772,
+        "postal_code": "34000"
+    }
+]

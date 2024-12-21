@@ -1,0 +1,66 @@
+[
+    {
+        "_id": "person1",
+        "firstname": "Lucas",
+        "lastname": "Morel",
+        "age": 27,
+        "location": "location1",
+        "call_history": []
+    },
+    {
+        "_id": "person2",
+        "firstname": "Damien",
+        "lastname": "Lemoine",
+        "age": 25,
+        "location": "location9",
+        "call_history": []
+    },
+    {
+        "_id": "person3",
+        "firstname": "Karim",
+        "lastname": "Djaouad",
+        "age": 28,
+        "location": "location2",
+        "call_history": []
+    },
+    {
+        "_id": "person4",
+        "firstname": "Marie",
+        "lastname": "Dubois",
+        "age": 45,
+        "location": "location3",
+        "call_history": []
+    },
+    {
+        "_id": "person5",
+        "firstname": "Ahmed",
+        "lastname": "Benali",
+        "age": 32,
+        "location": "location4",
+        "call_history": []
+    },
+    {
+        "_id": "person6",
+        "firstname": "Enzo",
+        "lastname": "Lopez",
+        "age": 32,
+        "location": "location5",
+        "call_history": []
+    },
+    {
+        "_id": "person7",
+        "firstname": "René",
+        "lastname": "Lefevre",
+        "age": 22,
+        "location": "location6",
+        "call_history": []
+    },
+    {
+        "_id": "person8",
+        "firstname": "Mireille",
+        "lastname": "Mercier",
+        "age": 70,
+        "location": "location7",
+        "call_history": []
+    }
+]

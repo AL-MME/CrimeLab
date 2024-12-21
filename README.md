@@ -1,9 +1,13 @@
 # CrimeLab
-Projet de noSql. Objectif, à partir d'une bdd d'appel, pouvoir regrouper des individus.
+Projet de noSql. Objectif, à partir d'une bdd d'appel, pouvoir regrouper des individus et faire des liens entre eux.
 
-# Scénario 1
+# Scénario 1 avec liens
 
-# Scénario 2
+Une voiture a été signalée volée, le propriétaire a découvert le vol en sortant du cinéma de la défense le 1er Janvier 2024 à 20h. Les forces de l’ordre ont été alertées grâce aux témoins. Le suspect Lucas a été interpellé par les policer et ses complices sont actuellement recherchés.
+
+# Scénario 2 sans liens
+
+Un vol de bijoux dans une maison à Bordeaux le 2 janvier 2024 à 23h, par un ancien sérurier. On cherche s'il pourrait avoir un complice.
 
 # API
 ## Technos  
@@ -34,37 +38,51 @@ Projet de noSql. Objectif, à partir d'une bdd d'appel, pouvoir regrouper des in
 - Neo4j
 - Kafka
 
-## Collections (a revoir) 
-### AFFAIRES 
-- Nom
-- Lieu
-- Date
-- Suspects (avec témoignage lié?)
-- Victime
-- Témoins
-### INDIVIDUS
-- Nom
-- Prenom
-- Age
-- Adresse (lieu)
-- Informations (témoignages? a voir si on stock ici ou si on met leur id dans les affaires)
-### LIEUX
-- Adresse
-- Ville
-- Code postal
-- Lat
-- Lng
-### TEMOIGNAGES
-- Déclaration
-- Infos liées?
-### APPELS (fadettes)
-- Date
-- Heure
-- Duree
-- Source (tel)
-- Destination (tel)
-- Type (SMS, APP...)
-- Localisation
-- Relais
+## Collections
+### Cases 
+- Type : String
+- Description : String
+- Date : DateTime
+- Location : Location
+- Suspects : Persons[]
+- Victims : Persons[]
+- Witnesses : Persons[]
+- Testimonies : Testimonies[]
 
-### Relais?? 
+### Persons
+- Firstname : String
+- Lastname : String
+- Age : Number
+- Location : Location
+- Call_history : Call[]
+
+### Cities
+- Name : String
+- Country : String
+- Lat : Number
+- Lon : Number
+- Postal_code : String
+
+### Testimonies
+- Case : Case
+- Person: Person
+- Description : String
+- Date : DateTime
+
+### Fadettes
+- Date : DateTime
+- Duree : Number
+- Caller : Person
+- Receiver : Person
+- Type : String
+- Relay : Relay
+
+### Relays
+- Name : String
+- Location : Location
+
+### Locations
+- Street : String
+- City : City
+- Lat : Number
+- Lon : Number
