@@ -24,20 +24,16 @@ const startSync = async () => {
         switch (change.operationType) {
           case "insert":
             const newPerson = change.fullDocument;
-            if (newPerson.firstname && newPerson.lastname && newPerson.age && newPerson.location) {
+            if (newPerson.firstname && newPerson.lastname && newPerson.age) {
               await session.run(
                 `
-                  MERGE (p:Person {id: $id})
-                  SET p.firstname = $firstname, p.lastname = $lastname, p.age = $age
-                  MERGE (l:Location {id: $locationId})
-                  MERGE (p)-[:LIVES_AT]->(l)
+                  CREATE (p:Person {id: $id, firstname: $firstname, lastname: $lastname, age: $age})
                 `,
                 {
-                  id: newPerson._id,
+                  id: newPerson._id.toString(),
                   firstname: newPerson.firstname,
                   lastname: newPerson.lastname,
                   age: newPerson.age,
-                  locationId: newPerson.location,
                 }
               );
             }
