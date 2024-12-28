@@ -20,7 +20,7 @@ services:
   neo4j:
     image: neo4j:latest
     environment:
-      - NEO4J_AUTH=neo4j/password
+      - NEO4J_AUTH=${NEO4J_AUTH}
     ports:
       - "7474:7474" # Port d'administration web
       - "7687:7687" # Port Bolt pour les connexions depuis une application
