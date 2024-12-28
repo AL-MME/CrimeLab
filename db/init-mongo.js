@@ -29,3 +29,5 @@ db.fadettes.insertMany(fadettesData);
 // Testimonies :
 const testimoniesData = JSON.parse(fs.readFileSync('/collections/testimonies.json', 'utf8'));
 db.testimonies.insertMany(testimoniesData);
+
+print('Collections imported successfully');
