@@ -1,34 +1,56 @@
 const fs = require('fs');
 
-db = db.getSiblingDB('crimeLab');
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 
-// City : 
-const citiesData = JSON.parse(fs.readFileSync('/collections/cities.json', 'utf8'));
-db.cities.insertMany(citiesData);
+async function importData() {
+    db = db.getSiblingDB('crimeLab');
 
-// Locations : 
-const locationsData = JSON.parse(fs.readFileSync('/collections/locations.json', 'utf8'));
-db.locations.insertMany(locationsData);
+    try {
+        // City : 
+        const citiesData = JSON.parse(fs.readFileSync('/collections/cities.json', 'utf8'));
+        await db.cities.insertMany(citiesData);
+        await sleep(200);
 
-// Relays :
-const relaysData = JSON.parse(fs.readFileSync('/collections/relays.json', 'utf8'));
-db.relays.insertMany(relaysData);
+        // Locations : 
+        const locationsData = JSON.parse(fs.readFileSync('/collections/locations.json', 'utf8'));
+        await db.locations.insertMany(locationsData);
+        await sleep(200);
 
-// Persons :
-const personsData = JSON.parse(fs.readFileSync('/collections/persons.json', 'utf8'));
-db.persons.insertMany(personsData);
+        // Relays :
+        const relaysData = JSON.parse(fs.readFileSync('/collections/relays.json', 'utf8'));
+        await db.relays.insertMany(relaysData);
+        await sleep(200);
 
-// Testimonies :
-const testimoniesData = JSON.parse(fs.readFileSync('/collections/testimonies.json', 'utf8'));
-db.testimonies.insertMany(testimoniesData);
+        // Persons :
+        const personsData = JSON.parse(fs.readFileSync('/collections/persons.json', 'utf8'));
+        await db.persons.insertMany(personsData);
+        await sleep(200);
 
-// Cases : 
-const casesData = JSON.parse(fs.readFileSync('/collections/cases.json', 'utf8'));
-db.cases.insertMany(casesData);
+        // Testimonies :
+        const testimoniesData = JSON.parse(fs.readFileSync('/collections/testimonies.json', 'utf8'));
+        await db.testimonies.insertMany(testimoniesData);
+        await sleep(200);
 
-// Fadettes :
-const fadettesData = JSON.parse(fs.readFileSync('/collections/fadettes.json', 'utf8'));
-db.fadettes.insertMany(fadettesData);
+        // Cases : 
+        const casesData = JSON.parse(fs.readFileSync('/collections/cases.json', 'utf8'));
+        await db.cases.insertMany(casesData);
+        await sleep(200);
 
+        // Fadettes :
+        const fadettesData = JSON.parse(fs.readFileSync('/collections/fadettes.json', 'utf8'));
+        fadettesData.forEach(async fadette => {
+            await db.fadettes.insertOne(fadette);
+            await sleep(200);
+        });
+        
+        //await db.fadettes.insertMany(fadettesData);
 
-print('Collections imported successfully');
+        print('Collections imported successfully');
+    } catch (error) {
+        console.error('Error during data import:', error);
+    }
+}
+
+importData();
