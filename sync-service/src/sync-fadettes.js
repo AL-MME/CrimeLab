@@ -10,7 +10,7 @@ const FadettesSync = async (mongoClient, neo4jDriver) => {
         switch (change.operationType) {
           case "insert":
             const newFadette = change.fullDocument;
-            if (newFadette.date && newFadette.duration && newFadette.caller && newFadette.receiver && newFadette.type && newFadette.relay) {
+            if (newFadette.date && newFadette.duration >= 0 && newFadette.caller && newFadette.receiver && newFadette.type && newFadette.relay) {
               const queryResult = await tx.run(
                 `
                   CREATE (f:Fadette {id: $id, duration: $duration, date: $date, type: $type})

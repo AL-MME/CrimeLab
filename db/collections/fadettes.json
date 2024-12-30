@@ -52,5 +52,14 @@
         "receiver": "person1",
         "type": "sms",
         "relay": "relay1"
-    }    
+    },
+    {
+        "_id": "call7",
+        "date": "2021-01-01 23:00",
+        "duration": 0,
+        "caller": "person3",
+        "receiver": "person1",
+        "type": "sms",
+        "relay": "relay1"
+    }
 ]
