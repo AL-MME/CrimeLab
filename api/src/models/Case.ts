@@ -22,4 +22,6 @@ const CaseSchema: Schema = new Schema({
     testimonies: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Testimonie', required: true }]
 });
 
-const Case = mongoose.model<ICase>('Case', CaseSchema);
+const Case = mongoose.model<ICase>('Case', CaseSchema, 'cases');
+
+export { Case, ICase };

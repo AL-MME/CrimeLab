@@ -14,6 +14,6 @@ const TestimonieSchema: Schema = new Schema({
     date: { type: Date, required: true }
 });
 
-const Testimonie = mongoose.model<ITestimonie>('Testimonie', TestimonieSchema);
+const Testimonie = mongoose.model<ITestimonie>('Testimonie', TestimonieSchema, 'testimonies');
 
 export { Testimonie };

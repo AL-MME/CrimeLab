@@ -16,6 +16,6 @@ const PersonSchema: Schema = new Schema({
     call_history: { type: [String], default: [] }
 });
 
-const Person = mongoose.model<IPerson>('Person', PersonSchema);
+const Person = mongoose.model<IPerson>('Person', PersonSchema, 'persons');
 
-export { Person };
+export { Person, IPerson };
