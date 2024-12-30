@@ -40,13 +40,10 @@ async function importData() {
 
         // Fadettes :
         const fadettesData = JSON.parse(fs.readFileSync('/collections/fadettes.json', 'utf8'));
-        fadettesData.forEach(async fadette => {
+        for (const fadette of fadettesData) {
             await db.fadettes.insertOne(fadette);
             await sleep(200);
-        });
-        
-        //await db.fadettes.insertMany(fadettesData);
-
+        }
         print('Collections imported successfully');
     } catch (error) {
         console.error('Error during data import:', error);
