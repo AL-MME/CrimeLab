@@ -14,6 +14,6 @@ const LocationSchema: Schema = new Schema({
     lon: { type: Number, required: true }
 });
 
-const Location = mongoose.model<ILocation>('Location', LocationSchema);
+const Location = mongoose.model<ILocation>('Location', LocationSchema, 'locations');
 
 export { Location };

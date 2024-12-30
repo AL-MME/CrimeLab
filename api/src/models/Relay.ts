@@ -10,6 +10,6 @@ const RelaySchema: Schema = new Schema({
     location: { type: mongoose.Schema.Types.ObjectId, ref: 'Location', required: true }
 });
 
-const Relay = mongoose.model<IRelay>('Relay', RelaySchema);
+const Relay = mongoose.model<IRelay>('Relay', RelaySchema, 'relays');
 
 export { Relay };

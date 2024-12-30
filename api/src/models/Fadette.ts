@@ -18,6 +18,6 @@ const FadetteSchema: Schema = new Schema({
     relay: { type: String, required: true }
 });
 
-const Fadette = mongoose.model<IFadette>('Fadette', FadetteSchema);
+const Fadette = mongoose.model<IFadette>('Fadette', FadetteSchema, 'fadettes');
 
 export { Fadette };

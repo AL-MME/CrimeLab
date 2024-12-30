@@ -1,4 +1,5 @@
 import express, { Request, Response } from "express";
+import { connectDB } from "./config/db";
 import dotenv from "dotenv";
 import fs from "fs";
 import path from "path";
@@ -7,6 +8,8 @@ import { logMiddleware } from "./middlewares/log-middleware";
 
 dotenv.config();
 const app = express();
+connectDB();
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.raw());

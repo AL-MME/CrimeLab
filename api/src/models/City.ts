@@ -16,6 +16,6 @@ const CitySchema: Schema = new Schema({
     postal_code: { type: String, required: true }
 });
 
-const City = mongoose.model<ICity>('City', CitySchema);
+const City = mongoose.model<ICity>('City', CitySchema, 'cities');
 
 export { City };
