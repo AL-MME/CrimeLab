@@ -10,7 +10,7 @@ const PersonSync = async (mongoClient, neo4jDriver) => {
         switch (change.operationType) {
           case "insert":
             const newPerson = change.fullDocument;
-            if (newPerson.firstname && newPerson.lastname && newPerson.age && newPerson.location) {
+            if (newPerson.firstname && newPerson.lastname && newPerson.age > 0 && newPerson.location) {
               const queryResult = await tx.run(
                 `
                   CREATE (p:Person {id: $id, firstname: $firstname, lastname: $lastname, age: $age})
