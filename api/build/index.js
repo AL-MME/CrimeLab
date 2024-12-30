@@ -8,12 +8,14 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const body_parser_1 = __importDefault(require("body-parser"));
+const log_middleware_1 = require("./middlewares/log-middleware");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 app.use(body_parser_1.default.json());
 app.use(body_parser_1.default.urlencoded({ extended: true }));
 app.use(body_parser_1.default.raw());
 const PORT = process.env.PORT;
+app.use(log_middleware_1.logMiddleware);
 app.get("/", (request, response) => {
     response.status(200).send("Hello World");
 });
@@ -36,5 +38,6 @@ app.listen(PORT, () => {
     throw new Error(error.message);
 });
 app.use((req, res, next) => {
+    console.log('Ressource not found - 404');
     res.status(404).json({ error: "ressource not found", cause: "bad method or inexistant route" });
 });
