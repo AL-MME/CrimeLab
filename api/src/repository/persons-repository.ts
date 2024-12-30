@@ -1,4 +1,3 @@
-import { Model } from 'mongoose';
 import { Person, IPerson } from '../models/Person';
 
 export class PersonsRepository {

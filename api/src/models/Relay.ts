@@ -8,6 +8,8 @@ interface IRelay extends Document {
 const RelaySchema: Schema = new Schema({
     name: { type: String, required: true },
     location: { type: mongoose.Schema.Types.ObjectId, ref: 'Location', required: true }
+}, {
+    versionKey: false
 });
 
 const Relay = mongoose.model<IRelay>('Relay', RelaySchema, 'relays');
