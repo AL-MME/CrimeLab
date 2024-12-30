@@ -1,9 +1,8 @@
 import express, { Request, Response } from "express";
 import dotenv from "dotenv";
-const fs                = require("fs");
-const path              = require('path');
-const routesPath        = path.join(__dirname, './routes');
-const bodyParser = require("body-parser");
+import fs from "fs";
+import path from "path";
+import bodyParser from "body-parser";
 
 dotenv.config();
 const app = express();
@@ -17,10 +16,16 @@ app.get("/", (request: Request, response: Response) => {
     response.status(200).send("Hello World");
 });
 
+const routesPath = path.join(__dirname, './routes');
 fs.readdirSync(routesPath).forEach((file: string) => {
     if (file.endsWith('.js')) {
         const route = require(path.join(routesPath, file));
-        app.use(route);
+        console.log(`Loading route ${file}`);
+        if (typeof route === 'function') {
+            app.use(route);
+        } else {
+            console.error(`Le fichier ${file} n'exporte pas une fonction middleware valide.`);
+        }
     }
 });
 

@@ -5,16 +5,36 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
-// configures dotenv to work in your application
+const fs_1 = __importDefault(require("fs"));
+const path_1 = __importDefault(require("path"));
+const body_parser_1 = __importDefault(require("body-parser"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
+app.use(body_parser_1.default.json());
+app.use(body_parser_1.default.urlencoded({ extended: true }));
+app.use(body_parser_1.default.raw());
 const PORT = process.env.PORT;
 app.get("/", (request, response) => {
     response.status(200).send("Hello World");
 });
+const routesPath = path_1.default.join(__dirname, './routes');
+fs_1.default.readdirSync(routesPath).forEach((file) => {
+    if (file.endsWith('.js')) {
+        const route = require(path_1.default.join(routesPath, file));
+        console.log(`Loading route ${file}`);
+        if (typeof route === 'function') {
+            app.use(route);
+        }
+        else {
+            console.error(`Le fichier ${file} n'exporte pas une fonction middleware valide.`);
+        }
+    }
+});
 app.listen(PORT, () => {
     console.log("Server running at PORT: ", PORT);
 }).on("error", (error) => {
-    // gracefully handle error
     throw new Error(error.message);
+});
+app.use((req, res, next) => {
+    res.status(404).json({ error: "ressource not found", cause: "bad method or inexistant route" });
 });
