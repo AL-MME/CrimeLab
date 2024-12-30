@@ -20,6 +20,8 @@ const CaseSchema: Schema = new Schema({
     witnesses: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Person', required: true }],
     victims: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Person', required: true }],
     testimonies: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Testimonie', required: true }]
+}, {
+    versionKey: false
 });
 
 const Case = mongoose.model<ICase>('Case', CaseSchema, 'cases');

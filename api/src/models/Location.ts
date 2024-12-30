@@ -12,6 +12,8 @@ const LocationSchema: Schema = new Schema({
     city: { type: String, required: true },
     lat: { type: Number, required: true },
     lon: { type: Number, required: true }
+}, {
+    versionKey: false
 });
 
 const Location = mongoose.model<ILocation>('Location', LocationSchema, 'locations');

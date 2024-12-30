@@ -14,6 +14,8 @@ const PersonSchema: Schema = new Schema({
     age: { type: Number, required: true },
     location: { type: String, required: true },
     call_history: { type: [String], default: [] }
+}, {
+    versionKey: false
 });
 
 const Person = mongoose.model<IPerson>('Person', PersonSchema, 'persons');

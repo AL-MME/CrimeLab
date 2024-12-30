@@ -1,4 +1,3 @@
-import { Model } from 'mongoose';
 import { Case, ICase } from '../models/Case';
 
 export class CaseRepository {
