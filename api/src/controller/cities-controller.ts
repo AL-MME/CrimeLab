@@ -42,7 +42,10 @@ export class CitiesController {
             const cityData: Partial<ICity> = req.body;
             const updatedCity = await CitiesService.updateCity(cityId, cityData);
             if (updatedCity) {
-                res.status(200).json(updatedCity);
+                res.status(200).json({
+                    message: 'City updated successfully',
+                    updatedCity,
+                });
             } else {
                 res.status(404).json({ message: 'City not found' });
             }
@@ -56,7 +59,9 @@ export class CitiesController {
             const cityId = req.params.id;
             const deletedCity = await CitiesService.deleteCity(cityId);
             if (deletedCity) {
-                res.status(200).json(deletedCity);
+                res.status(200).json({
+                    message: `City ${deletedCity._id} deleted successfully`,
+                });
             } else {
                 res.status(404).json({ message: 'City not found' });
             }

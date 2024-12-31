@@ -42,7 +42,10 @@ export class CaseController {
             const caseData: Partial<ICase> = req.body;
             const updatedCase = await CasesService.updateCase(caseId, caseData);
             if (updatedCase) {
-                res.status(200).json(updatedCase);
+                res.status(200).json({
+                    message: 'Case updated successfully',
+                    updatedCase,
+                });
             } else {
                 res.status(404).json({ message: 'Case not found' });
             }
@@ -56,7 +59,9 @@ export class CaseController {
             const caseId = req.params.id;
             const deletedCase = await CasesService.deleteCase(caseId);
             if (deletedCase) {
-                res.status(200).json(deletedCase);
+                res.status(200).json({
+                    message: `Case ${deletedCase._id} deleted successfully`,
+                });
             } else {
                 res.status(404).json({ message: 'Case not found' });
             }
