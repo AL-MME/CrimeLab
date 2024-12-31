@@ -1,6 +1,6 @@
 import { Case, ICase } from '../models/Case';
 
-export class CaseRepository {
+export class CasesRepository {
 
     static async create(caseData: Partial<ICase>): Promise<ICase> {
         return Case.create(caseData);
@@ -11,11 +11,7 @@ export class CaseRepository {
     }
 
     static async readAll(): Promise<ICase[]> {
-        console.log('CaseRepository.readAll()');
-        const cases = await Case.find().exec();
-        console.log('cases:', cases);
-
-        return cases;
+        return Case.find().exec();
     }
 
     static async update(caseId: string, caseData: Partial<ICase>): Promise<ICase | null> {
@@ -26,4 +22,3 @@ export class CaseRepository {
         return await Case.findByIdAndDelete(caseId).exec();
     }
 }
-

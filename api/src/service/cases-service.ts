@@ -1,26 +1,24 @@
-import { CaseRepository } from '../repository/cases-repository';
+import { CasesRepository } from '../repository/cases-repository';
 import { ICase } from '../models/Case';
 
-export class CaseService {
+export class CasesService {
     static async createCase(caseData: Partial<ICase>): Promise<ICase> {
-        return await CaseRepository.create(caseData);
+        return await CasesRepository.create(caseData);
     }
 
     static async getCaseById(caseId: string): Promise<ICase | null> {
-        return await CaseRepository.readById(caseId);
+        return await CasesRepository.readById(caseId);
     }
 
     static async getAllCases(): Promise<ICase[]> {
-        return await CaseRepository.readAll();
+        return await CasesRepository.readAll();
     }
 
     static async updateCase(caseId: string, caseData: Partial<ICase>): Promise<ICase | null> {
-        return await CaseRepository.update(caseId, caseData);
+        return await CasesRepository.update(caseId, caseData);
     }
 
     static async deleteCase(caseId: string): Promise<ICase | null> {
-        return await CaseRepository.delete(caseId);
+        return await CasesRepository.delete(caseId);
     }
 }
-
-export const caseService = new CaseService();
