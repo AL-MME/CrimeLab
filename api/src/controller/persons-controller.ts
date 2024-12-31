@@ -42,7 +42,10 @@ export class PersonsController {
             const personData: Partial<IPerson> = req.body;
             const updatedPerson = await PersonsService.updatePerson(personId, personData);
             if (updatedPerson) {
-                res.status(200).json(updatedPerson);
+                res.status(200).json({
+                    message: 'Person updated successfully',
+                    updatedPerson,
+                });
             } else {
                 res.status(404).json({ message: 'Person not found' });
             }
@@ -56,7 +59,9 @@ export class PersonsController {
             const personId = req.params.id;
             const deletedPerson = await PersonsService.deletePerson(personId);
             if (deletedPerson) {
-                res.status(200).json(deletedPerson);
+                res.status(200).json({
+                    message: `Person ${deletedPerson._id} deleted successfully`
+                });
             } else {
                 res.status(404).json({ message: 'Person not found' });
             }

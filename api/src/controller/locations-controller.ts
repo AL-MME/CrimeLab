@@ -21,7 +21,7 @@ export class LocationsController {
                 res.status(404).json({ message: 'Location not found' });
                 return;
             }
-            res.json(location);
+            res.status(200).json(location);
         } catch (error: any) {
             res.status(400).json({ message: error.message });
         }
@@ -30,7 +30,7 @@ export class LocationsController {
     static async getAllLocations(req: Request, res: Response) {
         try {
             const locations = await LocationsService.getAllLocations();
-            res.json(locations);
+            res.status(200).json(locations);
         } catch (error: any) {
             res.status(400).json({ message: error.message });
         }
@@ -45,7 +45,10 @@ export class LocationsController {
                 res.status(404).json({ message: 'Location not found' });
                 return;
             }
-            res.json(location);
+            res.status(200).json({
+                message: 'Location updated successfully',
+                location,
+            });
         } catch (error: any) {
             res.status(400).json({ message: error.message });
         }
@@ -59,7 +62,9 @@ export class LocationsController {
                 res.status(404).json({ message: 'Location not found' });
                 return;
             }
-            res.json(location);
+            res.status(200).json({
+                message: `Location ${location._id} deleted successfully`
+            });
         } catch (error: any) {
             res.status(400).json({ message: error.message });
         }
