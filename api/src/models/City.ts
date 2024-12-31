@@ -20,4 +20,4 @@ const CitySchema: Schema = new Schema({
 
 const City = mongoose.model<ICity>('City', CitySchema, 'cities');
 
-export { City };
+export { City, ICity };
