@@ -14,12 +14,12 @@ interface ICase extends Document {
 const CaseSchema: Schema = new Schema({
     type: { type: String, required: true },
     description: { type: String, required: true },
-    date: { type: Date, required: true },
-    location: { type: mongoose.Schema.Types.ObjectId, ref: 'Location', required: true },
-    suspects: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Person', required: true }],
-    witnesses: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Person', required: true }],
-    victims: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Person', required: true }],
-    testimonies: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Testimonie', required: true }]
+    date: { type: Date, required: false },
+    location: { type: mongoose.Schema.Types.ObjectId, ref: 'Location', required: false },
+    suspects: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Person', required: false }],
+    witnesses: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Person', required: false }],
+    victims: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Person', required: false }],
+    testimonies: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Testimonie', required: false }]
 }, {
     versionKey: false
 });
