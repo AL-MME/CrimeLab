@@ -1,11 +1,9 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 require('dotenv').config();
 
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/crimeLab';
 
 const options = {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
     serverSelectionTimeoutMS: 5000,
     autoIndex: true,
     maxPoolSize: 10

@@ -26,7 +26,7 @@ const routesPath = path.join(__dirname, './routes');
 fs.readdirSync(routesPath).forEach((file: string) => {
     if (file.endsWith('.js')) {
         const route = require(path.join(routesPath, file));
-        console.log(`Loading route ${file}`);
+        console.log(`✅ Route ${file} load successfully`);
         if (typeof route === 'function') {
             app.use(route);
         } else {

@@ -18,4 +18,4 @@ const LocationSchema: Schema = new Schema({
 
 const Location = mongoose.model<ILocation>('Location', LocationSchema, 'locations');
 
-export { Location };
+export { Location, ILocation };
