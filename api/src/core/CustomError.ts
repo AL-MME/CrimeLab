@@ -2,22 +2,20 @@
 
 class CustomError extends Error {
     statusCode: number;
-    context: any;
-    constructor(message: string, statusCode: number, context?: any) {
+    constructor(message: string, statusCode: number) {
         super(message);
         this.statusCode = statusCode;
-        this.context = context;
     }
 }
 
 export class NotFoundError extends CustomError {
-    constructor(message = 'Not found', context?: any) {
-        super(message, 404, context);
+    constructor(message = 'Not found') {
+        super(message, 404);
     }
 }
 
 export class BadRequestError extends CustomError {
-    constructor(message = 'Bad request', context?: any) {
-        super(message, 400, context);
+    constructor(message = 'Bad request') {
+        super(message, 400);
     }
 }

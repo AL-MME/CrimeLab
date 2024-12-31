@@ -1,5 +1,7 @@
 import { CasesRepository } from '../repository/cases-repository';
 import { ICase } from '../models/Case';
+import { isObjectId } from '../core/Utils';
+import { BadRequestError } from '../core/CustomError';
 
 export class CasesService {
     static async createCase(caseData: Partial<ICase>): Promise<ICase> {
@@ -7,6 +9,9 @@ export class CasesService {
     }
 
     static async getCaseById(caseId: string): Promise<ICase | null> {
+        if (!isObjectId(caseId)) {
+            throw new BadRequestError('caseId is not a valid ObjectId');
+        }
         return await CasesRepository.readById(caseId);
     }
 
@@ -15,10 +20,16 @@ export class CasesService {
     }
 
     static async updateCase(caseId: string, caseData: Partial<ICase>): Promise<ICase | null> {
+        if (!isObjectId(caseId)) {
+            throw new BadRequestError('caseId is not a valid ObjectId');
+        }
         return await CasesRepository.update(caseId, caseData);
     }
 
     static async deleteCase(caseId: string): Promise<ICase | null> {
+        if (!isObjectId(caseId)) {
+            throw new BadRequestError('caseId is not a valid ObjectId');
+        }
         return await CasesRepository.delete(caseId);
     }
 }
