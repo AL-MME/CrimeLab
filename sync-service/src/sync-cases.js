@@ -5,81 +5,100 @@ const CasesSync = async (mongoClient, neo4jDriver) => {
     caseChangeStream.on("change", async (change) => {
         console.log("Change detected:", change);
         const session = neo4jDriver.session();
+
         try {
             await session.writeTransaction(async (tx) => {
                 switch (change.operationType) {
                     case "insert":
                         const newCase = change.fullDocument;
-                        if (newCase.type && newCase.description && newCase.date && newCase.location && newCase.suspects && newCase.witnesses && newCase.victims && newCase.testimonies) {
-                            const queryResult = await tx.run(
+                        if (
+                            newCase.type &&
+                            newCase.description &&
+                            newCase.date &&
+                            newCase.location &&
+                            newCase.suspects &&
+                            newCase.witnesses &&
+                            newCase.victims &&
+                            newCase.testimonies
+                        ) {
+                            // Création du noeud principal
+                            await tx.run(
                                 `
-                  CREATE (c:Case {
-                      id: $id,
-                      type: $type,
-                      description: $description,
-                      date: $date
-                  })
-                    WITH c, $location AS locationId
-                  MATCH (l:Location {id: locationId})
-                  MERGE (c)-[:OCCURRED_AT]->(l)
-                  WITH c
-                  UNWIND $suspects AS suspect
-                  MERGE (s:Person {id: suspect})
-                  MERGE (c)-[:HAS_SUSPECT]->(s)
-                  WITH c
-                  UNWIND $witnesses AS witness
-                  MERGE (w:Person {id: witness})
-                  MERGE (c)-[:HAS_WITNESS]->(w)
-                    WITH c
-                  UNWIND $victims AS victim
-                  MERGE (v:Person {id: victim})
-                  MERGE (c)-[:HAS_VICTIM]->(v)
-                    WITH c
-                  UNWIND $testimonies AS testimony
-                  MERGE (t:Testimony {id: testimony})
-                  MERGE (c)-[:HAS_TESTIMONY]->(t)
-                `,
+                                CREATE (c:Case {
+                                    id: $id,
+                                    type: $type,
+                                    description: $description,
+                                    date: $date
+                                })
+                                WITH c, $location AS locationId
+                                MATCH (l:Location {id: locationId})
+                                MERGE (c)-[:OCCURRED_AT]->(l)
+                                `,
                                 {
                                     id: newCase._id.toString(),
                                     type: newCase.type,
                                     description: newCase.description,
                                     date: newCase.date,
                                     location: newCase.location,
-                                    suspects: newCase.suspects,
-                                    witnesses: newCase.witnesses,
-                                    victims: newCase.victims,
-                                    testimonies: newCase.testimonies,
                                 }
                             );
-                            return queryResult.records;
+
+                            // Relations dynamiques
+                            const relationships = [
+                                { key: "suspects", label: "Person", relation: "HAS_SUSPECT" },
+                                { key: "witnesses", label: "Person", relation: "HAS_WITNESS" },
+                                { key: "victims", label: "Person", relation: "HAS_VICTIM" },
+                                { key: "testimonies", label: "Testimony", relation: "HAS_TESTIMONY" },
+                            ];
+
+                            for (const { key, label, relation } of relationships) {
+                                if (Array.isArray(newCase[key])) {
+                                    for (const element of newCase[key]) {
+                                        await tx.run(
+                                            `
+                                            MATCH (c:Case {id: $caseId})
+                                            MERGE (n:${label} {id: $elementId})
+                                            MERGE (c)-[:${relation}]->(n)
+                                            `,
+                                            {
+                                                caseId: newCase._id.toString(),
+                                                elementId: element,
+                                            }
+                                        );
+                                    }
+                                }
+                            }
                         }
                         break;
+
                     case "update":
                         const updatedFields = change.updateDescription.updatedFields;
-                        await session.run(
+                        await tx.run(
                             `
-                MATCH (c:Case {id: $id})
-                SET c += $updatedFields
-              `,
+                            MATCH (c:Case {id: $id})
+                            SET c += $updatedFields
+                            `,
                             {
-                                id: change.documentKey._id,
+                                id: change.documentKey._id.toString(),
                                 updatedFields,
                             }
                         );
                         break;
+
                     case "delete":
-                        await session.run(
+                        await tx.run(
                             `
-                MATCH (c:Case {id: $id})
-                DETACH DELETE c
-              `,
+                            MATCH (c:Case {id: $id})
+                            DETACH DELETE c
+                            `,
                             {
-                                id: change.documentKey._id,
+                                id: change.documentKey._id.toString(),
                             }
                         );
                         break;
                 }
             });
+
             console.log("Change processed:", change);
         } catch (err) {
             console.error("Error processing change:", err);

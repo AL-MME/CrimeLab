@@ -3,64 +3,104 @@ const TestimonySync = async (mongoClient, neo4jDriver) => {
   const testimonyChangeStream = testimonies.watch([], { batchSize: 1000 });
 
   testimonyChangeStream.on("change", async (change) => {
-    console.log("Change detected:", change);
+    console.log("Change detected:", JSON.stringify(change, null, 2));
+
     const session = neo4jDriver.session();
     try {
       await session.writeTransaction(async (tx) => {
         switch (change.operationType) {
           case "insert":
-            const newTestimony = change.fullDocument;
-            if (newTestimony.person && newTestimony.description && newTestimony.date) {
-              const queryResult = await tx.run(
-                `
-                  CREATE (t:Testimony {description: $description, date: $date})
-                  WITH t, $person AS personId
-                  MATCH (p:Person {id: personId})
-                  MERGE (t)-[:GIVEN_BY]->(p)
-                `,
-                {
-                  id: newTestimony._id.toString(),
-                  person: newTestimony.person,
-                  description: newTestimony.description,
-                  date: newTestimony.date,
-                }
-              );
-              return queryResult.records;
-            }
+            await handleInsertTestimony(change, tx);
             break;
+
           case "update":
-            const updatedFields = change.updateDescription.updatedFields;
-            await session.run(
-              `
-                MATCH (t:Testimony {id: $id})
-                SET t += $updatedFields
-              `,
-              {
-                id: change.documentKey._id,
-                updatedFields,
-              }
-            );
+            await handleUpdateTestimony(change, tx);
             break;
+
           case "delete":
-            await session.run(
-              `
-                MATCH (t:Testimony {id: $id})
-                DETACH DELETE t
-              `,
-              {
-                id: change.documentKey._id,
-              }
-            );
+            await handleDeleteTestimony(change, tx);
             break;
+
+          default:
+            console.warn(`Unsupported operation type: ${change.operationType}`);
         }
       });
-      console.log("Change processed:", change);
+
+      console.log("Change processed successfully.");
     } catch (err) {
       console.error("Error processing change:", err);
     } finally {
       await session.close();
     }
   });
+};
+
+/**
+ * Handle the insertion of a new testimony into Neo4j.
+ * @param {Object} change - Change stream event.
+ * @param {Transaction} tx - Neo4j transaction.
+ */
+const handleInsertTestimony = async (change, tx) => {
+  const newTestimony = change.fullDocument;
+
+  if (newTestimony.person && newTestimony.description && newTestimony.date) {
+    await tx.run(
+      `
+      CREATE (t:Testimony {id: $id, description: $description, date: $date})
+      WITH t, $person AS personId
+      MATCH (p:Person {id: personId})
+      MERGE (t)-[:GIVEN_BY]->(p)
+      `,
+      {
+        id: newTestimony._id.toString(),
+        person: newTestimony.person,
+        description: newTestimony.description,
+        date: newTestimony.date,
+      }
+    );
+  } else {
+    console.warn("Missing required fields for new testimony:", newTestimony);
+  }
+};
+
+/**
+ * Handle the update of a testimony in Neo4j.
+ * @param {Object} change - Change stream event.
+ * @param {Transaction} tx - Neo4j transaction.
+ */
+const handleUpdateTestimony = async (change, tx) => {
+  const updatedFields = change.updateDescription.updatedFields;
+  console.log("Updating testimony fields:", updatedFields);
+
+  await tx.run(
+    `
+    MATCH (t:Testimony {id: $id})
+    SET t += $updatedFields
+    `,
+    {
+      id: change.documentKey._id.toString(),
+      updatedFields,
+    }
+  );
+};
+
+/**
+ * Handle the deletion of a testimony from Neo4j.
+ * @param {Object} change - Change stream event.
+ * @param {Transaction} tx - Neo4j transaction.
+ */
+const handleDeleteTestimony = async (change, tx) => {
+  console.log("Deleting testimony:", change.documentKey._id);
+
+  await tx.run(
+    `
+    MATCH (t:Testimony {id: $id})
+    DETACH DELETE t
+    `,
+    {
+      id: change.documentKey._id.toString(),
+    }
+  );
 };
 
 module.exports = TestimonySync;

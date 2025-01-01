@@ -61,12 +61,5 @@
         "city": "city5",
         "lat": 43.608177,
         "lon": 3.879483
-    },
-    {
-        "_id": "location8",
-        "street": "2 Rue du Soleil",
-        "city": "city4",
-        "lat": 48.884187,
-        "lon": 2.243661
     }
 ]

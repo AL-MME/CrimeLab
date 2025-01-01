@@ -8,7 +8,7 @@
         "suspects": ["person1", "person2", "person3"],
         "witnesses": ["person4", "person5"],
         "victims": ["person6"],
-        "testimonies": ["testimony1", "testimony2"]
+        "testimonies": ["testimony1", "testimony2", "testimony3"]
     },
     {
         "_id": "case2",
