@@ -35,21 +35,16 @@ const FadettesSync = async (mongoClient, neo4jDriver) => {
   });
 };
 
-/**
- * Handle the insertion of a new fadette into Neo4j.
- * @param {Object} change - Change stream event.
- * @param {Transaction} tx - Neo4j transaction.
- */
 const handleInsert = async (change, tx) => {
   const newFadette = change.fullDocument;
 
   if (
-    newFadette.date &&
-    newFadette.duration >= 0 &&
-    newFadette.caller &&
-    newFadette.receiver &&
-    newFadette.type &&
-    newFadette.relay
+    newFadette.date !== undefined &&
+    newFadette.duration !== undefined &&
+    newFadette.caller !== undefined &&
+    newFadette.receiver !== undefined &&
+    newFadette.type !== undefined &&
+    newFadette.relay !== undefined
   ) {
     await tx.run(
       `
@@ -79,11 +74,6 @@ const handleInsert = async (change, tx) => {
   }
 };
 
-/**
- * Handle the update of a fadette in Neo4j.
- * @param {Object} change - Change stream event.
- * @param {Transaction} tx - Neo4j transaction.
- */
 const handleUpdate = async (change, tx) => {
   const updatedFields = change.updateDescription.updatedFields;
   console.log("Updating fields:", updatedFields);
@@ -100,11 +90,6 @@ const handleUpdate = async (change, tx) => {
   );
 };
 
-/**
- * Handle the deletion of a fadette from Neo4j.
- * @param {Object} change - Change stream event.
- * @param {Transaction} tx - Neo4j transaction.
- */
 const handleDelete = async (change, tx) => {
   console.log("Deleting fadette:", change.documentKey._id);
 

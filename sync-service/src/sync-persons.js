@@ -35,15 +35,10 @@ const PersonSync = async (mongoClient, neo4jDriver) => {
   });
 };
 
-/**
- * Handle the insertion of a new person into Neo4j.
- * @param {Object} change - Change stream event.
- * @param {Transaction} tx - Neo4j transaction.
- */
 const handleInsertPerson = async (change, tx) => {
   const newPerson = change.fullDocument;
 
-  if (newPerson.firstname && newPerson.lastname && newPerson.age > 0 && newPerson.location) {
+  if (newPerson.firstname !== undefined && newPerson.lastname !== undefined && newPerson.age !== undefined && newPerson.location !== undefined) {
     await tx.run(
       `
       CREATE (p:Person {id: $id, firstname: $firstname, lastname: $lastname, age: $age})
@@ -64,11 +59,6 @@ const handleInsertPerson = async (change, tx) => {
   }
 };
 
-/**
- * Handle the update of a person in Neo4j.
- * @param {Object} change - Change stream event.
- * @param {Transaction} tx - Neo4j transaction.
- */
 const handleUpdatePerson = async (change, tx) => {
   const updatedFields = change.updateDescription.updatedFields;
   console.log("Updating person fields:", updatedFields);
@@ -85,11 +75,6 @@ const handleUpdatePerson = async (change, tx) => {
   );
 };
 
-/**
- * Handle the deletion of a person from Neo4j.
- * @param {Object} change - Change stream event.
- * @param {Transaction} tx - Neo4j transaction.
- */
 const handleDeletePerson = async (change, tx) => {
   console.log("Deleting person:", change.documentKey._id);
 

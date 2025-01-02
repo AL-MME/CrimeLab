@@ -35,15 +35,10 @@ const SyncLocation = async (mongoClient, neo4jDriver) => {
   });
 };
 
-/**
- * Handle the insertion of a new location into Neo4j.
- * @param {Object} change - Change stream event.
- * @param {Transaction} tx - Neo4j transaction.
- */
 const handleInsertLocation = async (change, tx) => {
   const newLocation = change.fullDocument;
 
-  if (newLocation.street && newLocation.lat && newLocation.lon && newLocation.city) {
+  if (newLocation.street !== undefined && newLocation.lat !== undefined && newLocation.lon !== undefined && newLocation.city !== undefined) {
     await tx.run(
       `
       CREATE (l:Location {id: $id, street: $street, lat: $lat, lon: $lon})
@@ -64,11 +59,6 @@ const handleInsertLocation = async (change, tx) => {
   }
 };
 
-/**
- * Handle the update of a location in Neo4j.
- * @param {Object} change - Change stream event.
- * @param {Transaction} tx - Neo4j transaction.
- */
 const handleUpdateLocation = async (change, tx) => {
   const updatedFields = change.updateDescription.updatedFields;
   console.log("Updating location fields:", updatedFields);
@@ -85,11 +75,6 @@ const handleUpdateLocation = async (change, tx) => {
   );
 };
 
-/**
- * Handle the deletion of a location from Neo4j.
- * @param {Object} change - Change stream event.
- * @param {Transaction} tx - Neo4j transaction.
- */
 const handleDeleteLocation = async (change, tx) => {
   console.log("Deleting location:", change.documentKey._id);
 

@@ -35,15 +35,10 @@ const RelaysSync = async (mongoClient, neo4jDriver) => {
   });
 };
 
-/**
- * Handle the insertion of a new relay into Neo4j.
- * @param {Object} change - Change stream event.
- * @param {Transaction} tx - Neo4j transaction.
- */
 const handleInsertRelay = async (change, tx) => {
   const newRelay = change.fullDocument;
 
-  if (newRelay.name && newRelay.location) {
+  if (newRelay.name !== undefined && newRelay.location !== undefined) {
     await tx.run(
       `
       CREATE (r:Relay {id: $id, name: $name})
@@ -62,11 +57,6 @@ const handleInsertRelay = async (change, tx) => {
   }
 };
 
-/**
- * Handle the update of a relay in Neo4j.
- * @param {Object} change - Change stream event.
- * @param {Transaction} tx - Neo4j transaction.
- */
 const handleUpdateRelay = async (change, tx) => {
   const updatedFields = change.updateDescription.updatedFields;
   console.log("Updating relay fields:", updatedFields);
@@ -83,11 +73,6 @@ const handleUpdateRelay = async (change, tx) => {
   );
 };
 
-/**
- * Handle the deletion of a relay from Neo4j.
- * @param {Object} change - Change stream event.
- * @param {Transaction} tx - Neo4j transaction.
- */
 const handleDeleteRelay = async (change, tx) => {
   console.log("Deleting relay:", change.documentKey._id);
 

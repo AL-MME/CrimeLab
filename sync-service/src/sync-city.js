@@ -5,7 +5,7 @@ const SyncCity = async (mongoClient, neo4jDriver) => {
   cityChangeStream.on("change", async (change) => {
     console.log("Change detected:", change);
 
-    const session = neo4jDriver.session();
+    const session = neo4jDriver.session(); // On ouvre une session Neo4j
     try {
       await session.writeTransaction(async (tx) => {
         switch (change.operationType) {
@@ -43,11 +43,11 @@ const SyncCity = async (mongoClient, neo4jDriver) => {
 const handleInsert = async (change, tx) => {
   const newCity = change.fullDocument;
   if (
-    newCity.name &&
-    newCity.country &&
-    newCity.lat &&
-    newCity.lon &&
-    newCity.postal_code
+    newCity.name !== undefined &&
+    newCity.country !== undefined &&
+    newCity.lat !== undefined &&
+    newCity.lon !== undefined &&
+    newCity.postal_code !== undefined
   ) {
     await tx.run(
       `
@@ -78,7 +78,7 @@ const handleUpdate = async (change, tx) => {
     `
     MATCH (c:City {id: $id})
     SET c += $updatedFields
-    `,
+    `, // Ici updated fields est un objet contenant les champs mis à jour, qu'on ajoute ou remplace si le champs existe déjà
     {
       id: change.documentKey._id.toString(),
       updatedFields,

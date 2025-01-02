@@ -35,15 +35,10 @@ const TestimonySync = async (mongoClient, neo4jDriver) => {
   });
 };
 
-/**
- * Handle the insertion of a new testimony into Neo4j.
- * @param {Object} change - Change stream event.
- * @param {Transaction} tx - Neo4j transaction.
- */
 const handleInsertTestimony = async (change, tx) => {
   const newTestimony = change.fullDocument;
 
-  if (newTestimony.person && newTestimony.description && newTestimony.date) {
+  if (newTestimony.person !== undefined && newTestimony.description !== undefined && newTestimony.date !== undefined) {
     await tx.run(
       `
       CREATE (t:Testimony {id: $id, description: $description, date: $date})
@@ -63,11 +58,6 @@ const handleInsertTestimony = async (change, tx) => {
   }
 };
 
-/**
- * Handle the update of a testimony in Neo4j.
- * @param {Object} change - Change stream event.
- * @param {Transaction} tx - Neo4j transaction.
- */
 const handleUpdateTestimony = async (change, tx) => {
   const updatedFields = change.updateDescription.updatedFields;
   console.log("Updating testimony fields:", updatedFields);
@@ -84,11 +74,6 @@ const handleUpdateTestimony = async (change, tx) => {
   );
 };
 
-/**
- * Handle the deletion of a testimony from Neo4j.
- * @param {Object} change - Change stream event.
- * @param {Transaction} tx - Neo4j transaction.
- */
 const handleDeleteTestimony = async (change, tx) => {
   console.log("Deleting testimony:", change.documentKey._id);
 

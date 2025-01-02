@@ -11,17 +11,17 @@ const CasesSync = async (mongoClient, neo4jDriver) => {
                 switch (change.operationType) {
                     case "insert":
                         const newCase = change.fullDocument;
-                        if (
-                            newCase.type &&
-                            newCase.description &&
-                            newCase.date &&
-                            newCase.location &&
-                            newCase.suspects &&
-                            newCase.witnesses &&
-                            newCase.victims &&
-                            newCase.testimonies
+                        if ( // On vérifie que les champs obligatoires sont bien présents, on met bien undefined pour éviter les erreurs quand les valeurs valent 0 ou "" par exemple
+                            newCase.type !== undefined &&
+                            newCase.description !== undefined &&
+                            newCase.date !== undefined &&
+                            newCase.location !== undefined &&
+                            newCase.suspects !== undefined &&
+                            newCase.witnesses !== undefined &&
+                            newCase.victims !== undefined &&
+                            newCase.testimonies !== undefined
                         ) {
-                            // Création du noeud principal
+                            // On crée le noeud de base
                             await tx.run(
                                 `
                                 CREATE (c:Case {
@@ -43,7 +43,7 @@ const CasesSync = async (mongoClient, neo4jDriver) => {
                                 }
                             );
 
-                            // Relations dynamiques
+                            // On indique quels sont ses types de relations
                             const relationships = [
                                 { key: "suspects", label: "Person", relation: "HAS_SUSPECT" },
                                 { key: "witnesses", label: "Person", relation: "HAS_WITNESS" },
@@ -51,9 +51,10 @@ const CasesSync = async (mongoClient, neo4jDriver) => {
                                 { key: "testimonies", label: "Testimony", relation: "HAS_TESTIMONY" },
                             ];
 
+                            // On les applique
                             for (const { key, label, relation } of relationships) {
-                                if (Array.isArray(newCase[key])) {
-                                    for (const element of newCase[key]) {
+                                if (Array.isArray(newCase[key])) { // ici du coup ce serait newCase.suspects, newCase.witnesses, etc
+                                    for (const element of newCase[key]) { // On prend les éléments vu que c'est un tableau (des id)
                                         await tx.run(
                                             `
                                             MATCH (c:Case {id: $caseId})
