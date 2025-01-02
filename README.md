@@ -54,7 +54,6 @@ Un vol de bijoux dans une maison à Bordeaux le 2 janvier 2024 à 23h, par un an
 - Lastname : String
 - Age : Number
 - Location : Location
-- Call_history : Call[]
 
 ### Cities
 - Name : String

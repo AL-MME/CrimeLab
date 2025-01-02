@@ -51,7 +51,7 @@ const handleInsertLocation = async (change, tx) => {
         street: newLocation.street,
         lat: newLocation.lat,
         lon: newLocation.lon,
-        city: newLocation.city,
+        city: newLocation.city.toString(),
       }
     );
   } else {

@@ -49,7 +49,7 @@ const handleInsertRelay = async (change, tx) => {
       {
         id: newRelay._id.toString(),
         name: newRelay.name,
-        location: newRelay.location,
+        location: newRelay.location.toString(),
       }
     );
   } else {

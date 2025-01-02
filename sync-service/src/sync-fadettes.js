@@ -61,12 +61,12 @@ const handleInsert = async (change, tx) => {
       `,
       {
         id: newFadette._id.toString(),
-        date: newFadette.date,
+        date: newFadette.date.toString(),
         duration: newFadette.duration,
-        caller: newFadette.caller,
-        receiver: newFadette.receiver,
+        caller: newFadette.caller.toString(),
+        receiver: newFadette.receiver.toString(),
         type: newFadette.type,
-        relay: newFadette.relay,
+        relay: newFadette.relay.toString(),
       }
     );
   } else {

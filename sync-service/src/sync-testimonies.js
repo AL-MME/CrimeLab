@@ -48,9 +48,9 @@ const handleInsertTestimony = async (change, tx) => {
       `,
       {
         id: newTestimony._id.toString(),
-        person: newTestimony.person,
+        person: newTestimony.person.toString(),
         description: newTestimony.description,
-        date: newTestimony.date,
+        date: newTestimony.date.toString(),
       }
     );
   } else {

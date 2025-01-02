@@ -51,7 +51,7 @@ const handleInsertPerson = async (change, tx) => {
         firstname: newPerson.firstname,
         lastname: newPerson.lastname,
         age: newPerson.age,
-        location: newPerson.location,
+        location: newPerson.location.toString(),
       }
     );
   } else {

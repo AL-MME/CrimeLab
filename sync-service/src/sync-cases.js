@@ -38,8 +38,8 @@ const CasesSync = async (mongoClient, neo4jDriver) => {
                                     id: newCase._id.toString(),
                                     type: newCase.type,
                                     description: newCase.description,
-                                    date: newCase.date,
-                                    location: newCase.location,
+                                    date: newCase.date.toString(),
+                                    location: newCase.location.toString(),
                                 }
                             );
 
@@ -63,7 +63,7 @@ const CasesSync = async (mongoClient, neo4jDriver) => {
                                             `,
                                             {
                                                 caseId: newCase._id.toString(),
-                                                elementId: element,
+                                                elementId: element.toString(),
                                             }
                                         );
                                     }
