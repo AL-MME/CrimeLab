@@ -22,4 +22,4 @@ const FadetteSchema: Schema = new Schema({
 
 const Fadette = mongoose.model<IFadette>('Fadette', FadetteSchema, 'fadettes');
 
-export { Fadette };
+export { Fadette, IFadette };
