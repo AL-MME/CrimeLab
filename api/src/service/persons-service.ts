@@ -1,5 +1,5 @@
 import { PersonsRepository } from '../repository/persons-repository';
-import { IPerson, Person } from '../models/Person';
+import { IPerson } from '../models/Person';
 import { isObjectId } from '../core/Utils';
 import { BadRequestError } from '../core/CustomError';
 
