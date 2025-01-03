@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 require('dotenv').config();
 
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/crimeLab';
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://mongo:27017/crimeLab?replicaSet=rs0';
 
 const options = {
     serverSelectionTimeoutMS: 5000,
@@ -11,6 +11,7 @@ const options = {
 
 export const connectDB = async () => {
     try {
+        console.log('🔗 Connecting to MongoDB...');
         await mongoose.connect(MONGODB_URI, options);
         console.log('✅ MongoDB connection successful');
 
