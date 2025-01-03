@@ -18,4 +18,4 @@ const TestimonieSchema: Schema = new Schema({
 
 const Testimonie = mongoose.model<ITestimonie>('Testimonie', TestimonieSchema, 'testimonies');
 
-export { Testimonie };
+export { Testimonie, ITestimonie };

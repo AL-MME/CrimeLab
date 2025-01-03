@@ -1,4 +1,4 @@
-import { RelaysRepository } from '../repository/relays.repository';
+import { RelaysRepository } from '../repository/relays-repository';
 import { IRelay } from '../models/Relay';
 import { isObjectId } from '../core/Utils';
 import { BadRequestError } from '../core/CustomError';
