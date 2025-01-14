@@ -14,4 +14,4 @@ const RelaySchema: Schema = new Schema({
 
 const Relay = mongoose.model<IRelay>('Relay', RelaySchema, 'relays');
 
-export { Relay };
+export { Relay, IRelay };

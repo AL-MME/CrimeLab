@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { PersonsService } from '../service/persons-service';
-import { IPerson, Person } from '../models/Person';
+import { IPerson } from '../models/Person';
 
 export class PersonsController {
     static async createPerson(req: Request, res: Response): Promise<void> {
