@@ -1,0 +1,12 @@
+.search-background {
+    background-image: url('../assets/background.jpg');
+    background-size: cover;
+    height: 100vh;
+}
+
+.search-title{
+    color: white;
+    font-size: 32px;
+    font-weight: bold;
+    text-align: center;
+}
