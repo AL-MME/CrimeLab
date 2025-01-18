@@ -12,11 +12,6 @@ code {
     monospace;
 }
 
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
 
 @font-face {
   font-family: 'Marianne';
@@ -36,5 +31,14 @@ code {
   font-family: 'Marianne';
   src: url('./assets/fonts/Marianne-Bold.woff2') format('woff2');
   font-weight: bold;
+  font-style: normal;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: 'Marianne', sans-serif;
+  font-weight: normal;
   font-style: normal;
 }
