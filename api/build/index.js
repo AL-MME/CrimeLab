@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const db_1 = require("./config/db");
 const dotenv_1 = __importDefault(require("dotenv"));
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
@@ -11,6 +12,7 @@ const body_parser_1 = __importDefault(require("body-parser"));
 const log_middleware_1 = require("./middlewares/log-middleware");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
+(0, db_1.connectDB)();
 app.use(body_parser_1.default.json());
 app.use(body_parser_1.default.urlencoded({ extended: true }));
 app.use(body_parser_1.default.raw());
@@ -23,7 +25,7 @@ const routesPath = path_1.default.join(__dirname, './routes');
 fs_1.default.readdirSync(routesPath).forEach((file) => {
     if (file.endsWith('.js')) {
         const route = require(path_1.default.join(routesPath, file));
-        console.log(`Loading route ${file}`);
+        console.log(`✅ Route ${file} load successfully`);
         if (typeof route === 'function') {
             app.use(route);
         }
