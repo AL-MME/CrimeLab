@@ -5,7 +5,6 @@ services:
     container_name: mongo
     ports:
       - "27017:27017"
-    restart: always
     volumes:
       - mongo_data:/data/db
       - ./init.js:/docker-entrypoint-initdb.d/init.js:ro
@@ -24,7 +23,6 @@ services:
     ports:
       - "7474:7474" # Port d'administration web
       - "7687:7687" # Port Bolt pour les connexions depuis une application
-    restart: always
     container_name: neo4j
     volumes:
       - neo4j_data:/data
@@ -45,7 +43,6 @@ services:
     container_name: sync-service
     ports:
       - "5001:5000"
-    restart: always
     networks:
       - app-network
 
