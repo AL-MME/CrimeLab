@@ -6,7 +6,10 @@ const Search = () => {
     return (
         <div className="search-background">
             <h1 className='search-title'>Bienvenue sur CrimeLab</h1>
-            <SearchBar />
+            <div className='search-bar-container'>                
+                <SearchBar />
+                <div className="search-results">SearchResults</div>
+            </div>
         </div>
     );
 }
