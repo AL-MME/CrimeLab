@@ -73,6 +73,8 @@ input:focus {
 
 .search-results {
     background-color: #1B1B26;
+    display: flex;
+    flex-direction: column;
     border-radius: 10px;
     width: 100%;
     max-width: 400px; /* Limite la largeur pour s'aligner avec la barre de recherche */
@@ -83,6 +85,7 @@ input:focus {
 
 .p-results {
     color: white;
+    text-decoration: none;
     font-size: 16px;
     margin: 10px;
     cursor: pointer;
@@ -100,4 +103,9 @@ input:focus {
     text-align: center;
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
     cursor: pointer;
+}
+#search-icon{
+    color: white;
+    font-size: 20px;
+    margin-right: 10px;
 }

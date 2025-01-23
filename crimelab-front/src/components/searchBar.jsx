@@ -40,16 +40,16 @@ const SearchBar = ({ setResults, category }) => {
         const formattedResults = filtered.map((item) => {
             switch (category) {
                 case "persons":
-                    return `${item.firstname} ${item.lastname}`;
+                    return { name: `${item.firstname} ${item.lastname}`, id: item._id };
                 case "locations":
-                    return `${item.street}`;
+                    return { name: `${item.street}`, id: item._id };
                 case "cities":
-                    return `${item.name}`;
+                    return { name: `${item.name}`, id: item._id };
                 case "relays":
-                    return `${item.name}`;
+                    return { name: `${item.name}`, id: item._id };
                 case "cases":
                     const formattedDate = new Date(item.date).toLocaleDateString('fr-FR');
-                    return `${item.type} - ${formattedDate}`;
+                    return { name: `${item.type} - ${formattedDate}`, id: item._id };
                 default:
                     return "Invalid category";
             }
