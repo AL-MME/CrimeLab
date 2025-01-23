@@ -109,3 +109,38 @@ input:focus {
     font-size: 20px;
     margin-right: 10px;
 }
+
+.button{
+    background-color: #1B1B26;
+    color: white;
+    font-size: 16px;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 10px;
+    box-shadow: 0 0px 10px rgba(0, 0, 0, 0.5);
+    cursor: pointer;    
+}
+
+.link {
+    color: white;
+    text-decoration: none;
+}
+
+.absolute{
+    position: absolute;
+    right: 32px;
+    bottom: 32px;
+}
+
+.row{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.addCase{
+    width: 12vw;
+}
