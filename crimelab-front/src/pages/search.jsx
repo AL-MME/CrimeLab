@@ -2,6 +2,8 @@ import SearchBar from '../components/searchBar';
 import { useState } from 'react';
 import '../css/search.css';
 import { SearchResultList } from '../components/SearchResultList';
+import { Link } from 'react-router-dom';
+import { FaPlus } from 'react-icons/fa';
 
 const Search = () => {
     const [results, setResults] = useState([]);
@@ -37,6 +39,10 @@ const Search = () => {
                     <option value="cases">Affaires</option>
                 </select>
             </div>
+            <button className="button absolute row addCase">
+                <FaPlus className='icon' />
+                <Link to="/form/cases" className='link'>Ajouter une affaire</Link>
+            </button>
         </div>
 
     );
