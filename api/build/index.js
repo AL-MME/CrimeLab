@@ -10,12 +10,14 @@ const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const log_middleware_1 = require("./middlewares/log-middleware");
+const cors_1 = __importDefault(require("cors"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 (0, db_1.connectDB)();
 app.use(body_parser_1.default.json());
 app.use(body_parser_1.default.urlencoded({ extended: true }));
 app.use(body_parser_1.default.raw());
+app.use((0, cors_1.default)());
 const PORT = process.env.PORT;
 app.use(log_middleware_1.logMiddleware);
 app.get("/", (request, response) => {
