@@ -6,7 +6,7 @@ export const SearchResultList = ({ results }) => {
         <div className="search-results">
             {
                 results.length > 0 ? results.map((result, index) => (
-                    <p key={index} className="p-results">{result}</p>)) : null
+                    <p className="p-results">{result}</p>)) : null
             }
         </div>
     );
