@@ -24,7 +24,7 @@ const Search = () => {
                         setResults={setResults}
                         category={category}
                     />
-                    <SearchResultList results={results} />
+                    <SearchResultList results={results} category={category} />
                 </div>
                 <select
                     id="category"
