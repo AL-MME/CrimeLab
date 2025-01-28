@@ -11,3 +11,34 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+@font-face {
+  font-family: 'Marianne';
+  src: url('./assets/fonts/Marianne-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Marianne';
+  src: url('./assets/fonts/Marianne-Light.woff2') format('woff2');
+  font-weight: lighter;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Marianne';
+  src: url('./assets/fonts/Marianne-Bold.woff2') format('woff2');
+  font-weight: bold;
+  font-style: normal;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: 'Marianne', sans-serif;
+  font-weight: normal;
+  font-style: normal;
+}
