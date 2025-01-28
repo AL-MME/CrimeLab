@@ -1,56 +1,69 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import NeoVis from 'neovis.js';
 
-const NeovisVisualizer = () => {
-    const visRef = useRef(null);
-    const [graphData, setGraphData] = useState(null);
+const GraphVisualization = () => {
+  const vizRef = useRef(null);
 
-    // Récupérer les données depuis le backend
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await fetch('http://localhost:3001/api/graph');
-                const data = await response.json();
-                setGraphData(data);
-            } catch (error) {
-                console.error('Erreur lors de la récupération des données :', error);
-            }
-        };
-
-        fetchData();
-    }, []);
-
-    // Initialiser Neovis.js une fois les données chargées
-    useEffect(() => {
-        if (!graphData || !visRef.current) return;
-
+  useEffect(() => {
+    const initializeGraph = () => {
         const config = {
-            container: visRef.current,
-            nodes: graphData.nodes,
-            relationships: graphData.relationships,
-            labels: {}, // Pas de configuration spécifique pour les labels
-            initialCypher: 'RETURN 1', // Requête factice (non utilisée ici)
-            nodeConfiguration: {
-                defaultCaption: 'id', // Utiliser l'ID comme étiquette par défaut
-                defaultSize: 10, // Taille par défaut des nœuds
-                defaultColor: '#97C2FC', // Couleur par défaut des nœuds
+            neo4j: {
+                server_url: "bolt://localhost:7687", // L'URL doit correspondre à l'instance en cours d'exécution
+                username: "neo4j",
+                password: "password",
             },
-            relationshipConfiguration: {
-                defaultCaption: 'type', // Utiliser le type comme étiquette par défaut
-                defaultThickness: 2, // Épaisseur par défaut des liens
-                defaultColor: '#FF6F61', // Couleur par défaut des liens
+            visConfig: {
+                nodes: {
+                    shape: 'square'
+                },
+                edges: {
+                    arrows: {
+                        to: {enabled: true}
+                    }
+                },
             },
-        };
+            labels: {
+                Character: {
+                    label: 'pagerank',
+                    group: 'community',
+                    [NeoVis.NEOVIS_ADVANCED_CONFIG]: {
+                        cypher: {
+                            value: "MATCH (n) WHERE id(n) = $id RETURN n.size"
+                        },
+                        function: {
+                            title: NeoVis.objectToTitleHtml
+                        },
+                    }
+                }
+            },
+            relationships: {
+                INTERACTS: {
+                    value: 'weight',
+                    [NeoVis.NEOVIS_ADVANCED_CONFIG]: {
+                        function: {
+                            title: NeoVis.objectToTitleHtml
+                        },
+                    }
+                }
+            },
+            initialCypher: 'MATCH (n)-[r]->(m) RETURN n,r,m'
+          };
+          
 
-        const vis = new NeoVis(config);
-        vis.render();
+      const viz = new NeoVis(config);
+      viz.render();
+      console.log(viz);
+    };
 
-        return () => {
-            // Nettoyage si nécessaire
-        };
-    }, [graphData]);
+    initializeGraph();
+  }, []);
 
-    return <div ref={visRef} style={{ width: '100%', height: '600px' }} />;
+  return (
+    <div>
+      <h1 className="text-xl font-bold mb-4">Graph Visualization</h1>
+      <div ref={vizRef} className="h-[500px] w-full border rounded-xl shadow-md" />
+    </div>
+  );
 };
 
-export default NeovisVisualizer;
+export default GraphVisualization;
