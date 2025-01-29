@@ -1,69 +1,38 @@
-import React, { useEffect, useRef } from 'react';
-import NeoVis from 'neovis.js';
+import React, { useEffect } from "react";
+import * as NeoVis from "neovis.js";
 
-const GraphVisualization = () => {
-  const vizRef = useRef(null);
-
+const NeoGraph = () => {
   useEffect(() => {
-    const initializeGraph = () => {
-        const config = {
-            neo4j: {
-                server_url: "bolt://localhost:7687", // L'URL doit correspondre à l'instance en cours d'exécution
-                username: "neo4j",
-                password: "password",
-            },
-            visConfig: {
-                nodes: {
-                    shape: 'square'
-                },
-                edges: {
-                    arrows: {
-                        to: {enabled: true}
-                    }
-                },
-            },
-            labels: {
-                Character: {
-                    label: 'pagerank',
-                    group: 'community',
-                    [NeoVis.NEOVIS_ADVANCED_CONFIG]: {
-                        cypher: {
-                            value: "MATCH (n) WHERE id(n) = $id RETURN n.size"
-                        },
-                        function: {
-                            title: NeoVis.objectToTitleHtml
-                        },
-                    }
-                }
-            },
-            relationships: {
-                INTERACTS: {
-                    value: 'weight',
-                    [NeoVis.NEOVIS_ADVANCED_CONFIG]: {
-                        function: {
-                            title: NeoVis.objectToTitleHtml
-                        },
-                    }
-                }
-            },
-            initialCypher: 'MATCH (n)-[r]->(m) RETURN n,r,m'
-          };
-          
-
-      const viz = new NeoVis(config);
-      viz.render();
-      console.log(viz);
+    const config = {
+      containerId: "viz",
+      neo4j: {
+        serverUrl: process.env.REACT_APP_NEO_URL,
+        serverUser: process.env.REACT_APP_NEO_USER,
+        serverPassword: process.env.REACT_APP_NEO_PWD,
+      },
+      labels: {
+        Person: {
+          label: "name",
+        },
+      },
+      relationships: {
+        KNOWS: {
+          thickness: "weight",
+        },
+      },
+      initialCypher: "MATCH (n)-[r]->(m) RETURN n,r,m",
     };
 
-    initializeGraph();
+    const viz = new NeoVis.default(config);
+    viz.render();
   }, []);
 
   return (
-    <div>
-      <h1 className="text-xl font-bold mb-4">Graph Visualization</h1>
-      <div ref={vizRef} className="h-[500px] w-full border rounded-xl shadow-md" />
+    <div style={{ textAlign: "center" }}>
+      <h2>Graph Neo4j avec NeoVis.js</h2>
+      <div id="viz" style={{ width: "800px", height: "600px", border: "1px solid black" }} />
     </div>
   );
 };
 
-export default GraphVisualization;
+export default NeoGraph;

@@ -1,7 +1,7 @@
 import React from "react";
 import "../css/details.css";
 import { useLocation } from "react-router-dom";
-import GraphVisualization from "../components/NeovisVisualizer";
+import NeoGraph from "../components/NeovisVisualizer";
 
 
 export const Details = () => {
@@ -15,7 +15,7 @@ return (
         <h1>Details Page</h1>
         <p>ID: {id}</p>
         <p>CAT: {cat}</p>
-        <GraphVisualization />
+        <NeoGraph />
     </div>
 );
 };
