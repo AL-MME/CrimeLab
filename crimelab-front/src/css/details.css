@@ -60,3 +60,34 @@
     font-size: 32px;
     font-weight: lighter;
 }
+
+.details-node{
+    width: 15%;
+    position: absolute;
+    height: 100%;
+    right: 0;
+    top: 0;
+    background-color: #1B1B26;
+    overflow: hidden;
+}
+
+.close-icon{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: white;
+    cursor: pointer;
+}
+
+.details-key-value{
+    color: white;
+    font-weight: lighter;
+    margin-bottom: 8px;
+}
+
+.node-details-content{
+    padding: 16px;
+}
+.details-key-value-container{
+    margin-bottom: 16px;
+}

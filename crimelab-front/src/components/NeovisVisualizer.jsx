@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import * as NeoVis from "neovis.js";
 import "../css/details.css";
 
-const NeoGraph = () => {
+const NeoGraph = ({ onNodeClick }) => {
     useEffect(() => {
         const config = {
             containerId: "viz",
@@ -105,7 +105,7 @@ const NeoGraph = () => {
 
         viz.registerOnEvent("clickNode", (event) => {
             if (event.node) {
-                console.log("Node clicked: ", event.node);
+                onNodeClick(event.node);
             }
         });
 
