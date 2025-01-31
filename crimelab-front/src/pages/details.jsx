@@ -11,6 +11,7 @@ export const Details = () => {
     const cat = queryParams.get('cat');
     const [showDetails, setShowDetails] = useState(false);
     const [nodeDetails, setNodeDetails] = useState({});
+    const [popUpState, setPopupState] = useState(false);
 
     const handleNodeClick = (node) => {
         setShowDetails(true);
@@ -19,6 +20,14 @@ export const Details = () => {
 
     const closeDetails = () => {
         setShowDetails(false);
+    };
+
+    const openPopup = () => {
+        setPopupState(true);
+    };
+
+    const closePopup = () => {
+        setPopupState(false);
     };
 
     return (
@@ -32,7 +41,17 @@ export const Details = () => {
                 <div className="details-content">
                     <NeoGraph onNodeClick={handleNodeClick}/>
                 </div>
-                {showDetails && <NodeDetails node={nodeDetails} closeDetails={closeDetails} />}
+                {showDetails && <NodeDetails node={nodeDetails} closeDetails={closeDetails} openPopup={openPopup} />}
+                {popUpState && 
+                <div className="popup-background" onClick={closePopup}>
+                    <div className="popup-content">
+                        <h1 className="crimeLabH1">Are you sure you want to delete this node?</h1>
+                        <div className="popup-buttons">
+                            <button className="details-close-button" onClick={closePopup}>Cancel</button>
+                            <button className="details-close-button" onClick={closePopup}>Delete</button>
+                        </div>
+                    </div>
+                    </div>}
             </div>
         </div>
     );

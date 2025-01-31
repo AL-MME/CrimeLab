@@ -88,6 +88,42 @@
 .node-details-content{
     padding: 16px;
 }
+
 .details-key-value-container{
     margin-bottom: 16px;
+}
+
+.details-close-button{
+    position: absolute;
+    bottom: 32px;
+    padding: 10px;
+    right: 50%;
+    transform: translateX(50%);
+    border: none;
+    border-radius: 4px;
+    background-color: rgb(201, 47, 47);
+    color: black;
+    cursor: pointer;
+}
+
+.popup-background{
+    outline: 999em;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+.popup-content{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #1B1B26;
+    padding: 16px;
+    border-radius: 4px;
+    width: 50%;
+    max-height: 80%;
+    overflow-y: auto;
 }
