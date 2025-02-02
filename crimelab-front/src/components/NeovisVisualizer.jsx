@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import * as NeoVis from "neovis.js";
 import "../css/details.css";
 
-const NeoGraph = ({ onNodeClick, category, id, scope }) => {
+const NeoGraph = ({ onNodeClick, category, id, scope, filters }) => {
     function getCypherByCategory() {
         switch (category) {
             case "persons":
@@ -21,7 +21,6 @@ const NeoGraph = ({ onNodeClick, category, id, scope }) => {
     }
 
     useEffect(() => {
-        console.log("Rendering graph with scope", scope);
         const config = {
             containerId: "viz",
             neo4j: {
@@ -111,14 +110,44 @@ const NeoGraph = ({ onNodeClick, category, id, scope }) => {
         viz.registerOnEvent("completed", () => {
             const network = viz.network;
             const edges = network.body.data.edges.get();
+            const nodes = network.body.data.nodes.get();
+
+            // Filtrer les nœuds en fonction des filtres
+            const filteredNodes = nodes.filter((node) => {
+                const labels = node.raw?.labels || [];
+                let showNode = false;
+
+                // Appliquer les filtres sur les types de nœuds
+                if (filters.persons && labels.includes("Person")) {
+                    showNode = true;
+                } else if (filters.locations && labels.includes("Location")) {
+                    showNode = true;
+                } else if (filters.cities && labels.includes("City")) {
+                    showNode = true;
+                } else if (filters.relays && labels.includes("Relay")) {
+                    showNode = true;
+                } else if (filters.cases && labels.includes("Case")) {
+                    showNode = true;
+                } else if (filters.fadettes && labels.includes("Fadette")) {
+                    showNode = true;
+                } else if (filters.testimonies && labels.includes("Testimony")) {
+                    showNode = true;
+                }
+
+                return showNode;
+            });
+
+            const allNodeIds = nodes.map(node => node.id);
+            const filteredNodeIds = filteredNodes.map(node => node.id);
+            const nodesToRemove = allNodeIds.filter(id => !filteredNodeIds.includes(id));
+            network.body.data.nodes.remove(nodesToRemove);
+            network.body.data.nodes.update(filteredNodes.map(nodeConfigFunction));
 
             edges.forEach(edge => {
                 const relationshipType = edge.raw?.type || "Unknown";
                 edge.label = relationshipType;
                 network.body.data.edges.update([edge]);
             });
-
-            network.body.data.nodes.update(network.body.data.nodes.get().map(nodeConfigFunction));
         });
 
         viz.registerOnEvent("clickNode", (event) => {
@@ -128,7 +157,7 @@ const NeoGraph = ({ onNodeClick, category, id, scope }) => {
         });
 
         viz.render();
-    }, [scope]);
+    }, [scope, filters]);
 
     return (
         <div style={{ textAlign: "center", width: "100%", height: "100%" }}>

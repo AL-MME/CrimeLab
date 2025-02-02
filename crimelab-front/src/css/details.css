@@ -178,3 +178,31 @@
 .counter-input:focus {
     border-color: white;
 }
+
+.filters{
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+}
+
+.filters label {
+    font-size: 16px;
+    font-weight: 500;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.details-navbar .filters input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    accent-color: #14141C; /* Pour donner une couleur verte au checkbox sélectionné */
+    cursor: pointer;
+}
+
+.details-navbar .filters label {
+    cursor: pointer;
+}

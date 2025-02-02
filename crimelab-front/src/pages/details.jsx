@@ -13,6 +13,23 @@ export const Details = () => {
     const [nodeDetails, setNodeDetails] = useState({});
     const [popUpState, setPopupState] = useState(false);
     const [scope, setScope] = useState(1);
+    const [filters, setFilters] = useState({
+        persons: true,
+        locations: true,
+        cities: true,
+        relays: true,
+        cases: true,
+        testimonies: true,
+        fadettes: true,
+    });
+
+    const handleFilterChange = (filterName) => {
+        setFilters((prevFilters) => ({
+            ...prevFilters,
+            [filterName]: !prevFilters[filterName],
+        }));
+    };
+
 
     const handleNodeClick = (node) => {
         setShowDetails(true);
@@ -44,9 +61,68 @@ export const Details = () => {
                         <input type="text" className="counter-input" value={scope} readOnly />
                         <button className="increment" onClick={() => setScope(scope + 1)}>+</button>
                     </div>
+                    <div className="filters">
+                        <h2>Filtres</h2>
+                        <label>
+                            <input
+                                type="checkbox"
+                                checked={filters.cities}
+                                onChange={() => handleFilterChange("cities")}
+                            />
+                            Villes
+                        </label>
+                        <label>
+                            <input
+                                type="checkbox"
+                                checked={filters.persons}
+                                onChange={() => handleFilterChange("persons")}
+                            />
+                            Personnes
+                        </label>
+                        <label>
+                            <input
+                                type="checkbox"
+                                checked={filters.cases}
+                                onChange={() => handleFilterChange("cases")}
+                            />
+                            Affaires
+                        </label>
+                        <label>
+                            <input
+                                type="checkbox"
+                                checked={filters.locations}
+                                onChange={() => handleFilterChange("locations")}
+                            />
+                            Lieux
+                        </label>
+                        <label>
+                            <input
+                                type="checkbox"
+                                checked={filters.relays}
+                                onChange={() => handleFilterChange("relays")}
+                            />
+                            Relais
+                        </label>
+                        <label>
+                            <input
+                                type="checkbox"
+                                checked={filters.testimonies}
+                                onChange={() => handleFilterChange("testimonies")}
+                            />
+                            Témoignages
+                        </label>
+                        <label>
+                            <input
+                                type="checkbox"
+                                checked={filters.fadettes}
+                                onChange={() => handleFilterChange("fadettes")}
+                            />
+                            Fadettes
+                        </label>
+                    </div>
                 </div>
                 <div className="details-content">
-                    <NeoGraph onNodeClick={handleNodeClick} category={cat} id={id} scope={scope} />
+                    <NeoGraph onNodeClick={handleNodeClick} category={cat} id={id} scope={scope} filters={filters} />
                 </div>
                 {showDetails && <NodeDetails node={nodeDetails} closeDetails={closeDetails} openPopup={openPopup} />}
                 {popUpState &&
