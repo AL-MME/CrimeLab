@@ -31,13 +31,13 @@
     justify-content: center;
 }
 
-.details-navbar{
+.details-navbar {
     height: 100%;
     width: 15%;
     background-color: #1B1B26;
 }
 
-.details-content{
+.details-content {
     height: 100%;
     width: 85%;
     display: flex;
@@ -46,7 +46,7 @@
     justify-content: center;
 }
 
-.details-navbar-title{
+.details-navbar-title {
     width: 100%;
     height: 10%;
     display: flex;
@@ -55,13 +55,13 @@
     justify-content: center;
 }
 
-.crimeLabH1{
+.crimeLabH1 {
     color: white;
     font-size: 32px;
     font-weight: lighter;
 }
 
-.details-node{
+.details-node {
     width: 15%;
     position: absolute;
     height: 100%;
@@ -71,7 +71,7 @@
     overflow: hidden;
 }
 
-.close-icon{
+.close-icon {
     position: absolute;
     top: 10px;
     right: 10px;
@@ -79,21 +79,21 @@
     cursor: pointer;
 }
 
-.details-key-value{
+.details-key-value {
     color: white;
     font-weight: lighter;
     margin-bottom: 8px;
 }
 
-.node-details-content{
+.node-details-content {
     padding: 16px;
 }
 
-.details-key-value-container{
+.details-key-value-container {
     margin-bottom: 16px;
 }
 
-.details-close-button{
+.details-close-button {
     position: absolute;
     bottom: 32px;
     padding: 10px;
@@ -106,7 +106,7 @@
     cursor: pointer;
 }
 
-.popup-background{
+.popup-background {
     outline: 999em;
     position: fixed;
     top: 0;
@@ -115,7 +115,8 @@
     height: 100%;
     background-color: rgba(0, 0, 0, 0.2);
 }
-.popup-content{
+
+.popup-content {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -126,4 +127,54 @@
     width: 50%;
     max-height: 80%;
     overflow-y: auto;
+}
+
+.details-navbar-counter {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.decrement,
+.increment {
+    width: 40px;
+    height: 40px;
+    background-color: #1B1B26;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.decrement:hover,
+.increment:hover {
+    background-color: #14141C;
+}
+
+.decrement:active,
+.increment:active {
+    transform: scale(0.95);
+}
+
+.counter-input {
+    width: 50px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    background: transparent;
+    border: 2px solid white;
+    border-radius: 8px;
+    padding: 5px;
+    outline: none;
+    color: white;
+    transition: border-color 0.3s ease;
+}
+
+.counter-input:focus {
+    border-color: white;
 }

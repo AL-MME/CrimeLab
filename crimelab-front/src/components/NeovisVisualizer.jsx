@@ -1,9 +1,27 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import * as NeoVis from "neovis.js";
 import "../css/details.css";
 
-const NeoGraph = ({ onNodeClick }) => {
+const NeoGraph = ({ onNodeClick, category, id, scope }) => {
+    function getCypherByCategory() {
+        switch (category) {
+            case "persons":
+                return `MATCH (p:Person {id:"${id}"})-[r*1..${scope}]-(n) RETURN p,r,n`;
+            case "locations":
+                return `MATCH (l:Location {id: "${id}"})-[r*1..${scope}]-(n) RETURN l,r,n`;
+            case "cities":
+                return `MATCH (n:City {id: "${id}"})-[r*1..${scope}]-(n) RETURN c,r,n`;
+            case "relays":
+                return `MATCH (n:Relay {id: "${id}"})-[r*1..${scope}]-(n) RETURN c,r,n`;
+            case "cases":
+                return `MATCH (n:Cases {id: "${id}"})-[r*1..${scope}]-(n) RETURN c,r,n`;
+            default:
+                return `MATCH (n:Person {id: "${id}"})-[r*1..${scope}]-(n) RETURN c,r,n`;
+        }
+    }
+
     useEffect(() => {
+        console.log("Rendering graph with scope", scope);
         const config = {
             containerId: "viz",
             neo4j: {
@@ -56,7 +74,7 @@ const NeoGraph = ({ onNodeClick }) => {
                 Case: { label: "type" },
                 Fadette: { label: "type" }
             },
-            initialCypher: "MATCH (n)-[r]-(m) RETURN n, r, m",
+            initialCypher: getCypherByCategory(),
         };
 
         const nodeConfigFunction = (node) => {
@@ -110,7 +128,7 @@ const NeoGraph = ({ onNodeClick }) => {
         });
 
         viz.render();
-    }, []);
+    }, [scope]);
 
     return (
         <div style={{ textAlign: "center", width: "100%", height: "100%" }}>
