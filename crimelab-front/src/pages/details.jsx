@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "../css/details.css";
 import NeoGraph from "../components/NeovisVisualizer";
 import { NodeDetails } from "../components/NodeDetails";
+import { useNavigate } from "react-router-dom";
 
 export const Details = () => {
     const storedData = localStorage.getItem("details");
@@ -19,6 +20,7 @@ export const Details = () => {
         Testimony: true,
         Fadette: true,
     });
+    const navigate = useNavigate();
 
     const handleFilterChange = (filterName) => {
         setFilters((prevFilters) => ({
@@ -49,7 +51,7 @@ export const Details = () => {
             <div className="details-background-image">
                 <div className="details-navbar">
                     <div className="details-navbar-title">
-                        <h1 className="crimeLabH1">CrimeLab</h1>
+                        <h1 className="crimeLabH1" onClick={()=>navigate("/")}>CrimeLab</h1>
                     </div>
                     <h2>Scope</h2>
                     <div className="details-navbar-counter">
