@@ -10,11 +10,11 @@ const NeoGraph = ({ onNodeClick, category, id, scope, filters }) => {
             case "locations":
                 return `MATCH (l:Location {id: "${id}"})-[r*1..${scope}]-(n) RETURN l,r,n`;
             case "cities":
-                return `MATCH (n:City {id: "${id}"})-[r*1..${scope}]-(n) RETURN c,r,n`;
+                return `MATCH (c:City {id: "${id}"})-[r*1..${scope}]-(n) RETURN c,r,n`;
             case "relays":
-                return `MATCH (n:Relay {id: "${id}"})-[r*1..${scope}]-(n) RETURN c,r,n`;
+                return `MATCH (re:Relay {id: "${id}"})-[r*1..${scope}]-(n) RETURN re,r,n`;
             case "cases":
-                return `MATCH (n:Cases {id: "${id}"})-[r*1..${scope}]-(n) RETURN c,r,n`;
+                return `MATCH (c:Case {id: "${id}"})-[r*1..${scope}]-(n) RETURN c,r,n`;
             default:
                 return `MATCH (n:Person {id: "${id}"})-[r*1..${scope}]-(n) RETURN c,r,n`;
         }

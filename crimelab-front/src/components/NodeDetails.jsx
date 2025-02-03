@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "../css/details.css";
 import { FaTimes } from "react-icons/fa";
 
-export const NodeDetails = ({ node, closeDetails, openPopup }) => {
+export const NodeDetails = ({ node, closeDetails }) => {
     return (
         <div className="details-node">
             <FaTimes className="close-icon" onClick={closeDetails} />
@@ -19,7 +19,7 @@ export const NodeDetails = ({ node, closeDetails, openPopup }) => {
                     );
                 })}
             </div>
-            <button className="details-close-button" onClick={openPopup}>Supprimer</button>
+            <button className="details-close-button">Supprimer</button>
         </div>
     );
 };
