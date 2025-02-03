@@ -179,7 +179,7 @@
     border-color: white;
 }
 
-.filters{
+.filters {
     display: flex;
     gap: 10px;
     flex-direction: column;
@@ -199,10 +199,14 @@
 .details-navbar .filters input[type="checkbox"] {
     width: 20px;
     height: 20px;
-    accent-color: #14141C; /* Pour donner une couleur verte au checkbox sélectionné */
+    accent-color: #14141C;
     cursor: pointer;
 }
 
 .details-navbar .filters label {
     cursor: pointer;
+}
+
+.filters label {
+    margin-left: 16px;
 }

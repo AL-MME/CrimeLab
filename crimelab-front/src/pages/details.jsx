@@ -1,25 +1,23 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "../css/details.css";
-import { useLocation } from "react-router-dom";
 import NeoGraph from "../components/NeovisVisualizer";
 import { NodeDetails } from "../components/NodeDetails";
 
 export const Details = () => {
-    const { search } = useLocation();
-    const queryParams = new URLSearchParams(search);
-    const id = queryParams.get('id');
-    const cat = queryParams.get('cat');
+    const storedData = localStorage.getItem("details");
+    const [id, setId] = useState(storedData ? JSON.parse(storedData).id : "");
+    const [category, setCat] = useState(storedData ? JSON.parse(storedData).category : "");
     const [showDetails, setShowDetails] = useState(false);
     const [nodeDetails, setNodeDetails] = useState({});
     const [scope, setScope] = useState(1);
     const [filters, setFilters] = useState({
-        persons: true,
-        locations: true,
-        cities: true,
-        relays: true,
-        cases: true,
-        testimonies: true,
-        fadettes: true,
+        Person: true,
+        Location: true,
+        City: true,
+        Relay: true,
+        Case: true,
+        Testimony: true,
+        Fadette: true,
     });
 
     const handleFilterChange = (filterName) => {
@@ -31,13 +29,20 @@ export const Details = () => {
 
 
     const handleNodeClick = (node) => {
-        setShowDetails(true);
         setNodeDetails(node.raw.properties);
+        setShowDetails(true);
     };
 
     const closeDetails = () => {
         setShowDetails(false);
     };
+
+    const editIdAndCat = (id, category) => {
+        localStorage.setItem("details", JSON.stringify({ id, category }));
+        console.log("id", id, "category", category);
+        setId(id);
+        setCat(category);
+    }
 
     return (
         <div className="details-background">
@@ -57,63 +62,63 @@ export const Details = () => {
                         <label>
                             <input
                                 type="checkbox"
-                                checked={filters.cities}
-                                onChange={() => handleFilterChange("cities")}
+                                checked={filters.City}
+                                onChange={() => handleFilterChange("City")}
                             />
                             Villes
                         </label>
                         <label>
                             <input
                                 type="checkbox"
-                                checked={filters.persons}
-                                onChange={() => handleFilterChange("persons")}
+                                checked={filters.Person}
+                                onChange={() => handleFilterChange("Person")}
                             />
                             Personnes
                         </label>
                         <label>
                             <input
                                 type="checkbox"
-                                checked={filters.cases}
-                                onChange={() => handleFilterChange("cases")}
+                                checked={filters.Case}
+                                onChange={() => handleFilterChange("Case")}
                             />
                             Affaires
                         </label>
                         <label>
                             <input
                                 type="checkbox"
-                                checked={filters.locations}
-                                onChange={() => handleFilterChange("locations")}
+                                checked={filters.Location}
+                                onChange={() => handleFilterChange("Location")}
                             />
                             Lieux
                         </label>
                         <label>
                             <input
                                 type="checkbox"
-                                checked={filters.relays}
-                                onChange={() => handleFilterChange("relays")}
+                                checked={filters.Relay}
+                                onChange={() => handleFilterChange("Relay")}
                             />
                             Relais
                         </label>
                         <label>
                             <input
                                 type="checkbox"
-                                checked={filters.testimonies}
-                                onChange={() => handleFilterChange("testimonies")}
+                                checked={filters.Testimony}
+                                onChange={() => handleFilterChange("Testimony")}
                             />
                             Témoignages
                         </label>
                         <label>
                             <input
                                 type="checkbox"
-                                checked={filters.fadettes}
-                                onChange={() => handleFilterChange("fadettes")}
+                                checked={filters.Fadette}
+                                onChange={() => handleFilterChange("Fadette")}
                             />
-                            Fadettes
+                            Fadette
                         </label>
                     </div>
                 </div>
                 <div className="details-content">
-                    <NeoGraph onNodeClick={handleNodeClick} category={cat} id={id} scope={scope} filters={filters} />
+                    <NeoGraph onNodeClick={handleNodeClick} category={category} id={id} scope={scope} filters={filters} editIdAndCat={editIdAndCat} />
                 </div>
                 {showDetails && <NodeDetails node={nodeDetails} closeDetails={closeDetails} />}
             </div>

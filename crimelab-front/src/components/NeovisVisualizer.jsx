@@ -1,26 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import * as NeoVis from "neovis.js";
 import "../css/details.css";
 
-const NeoGraph = ({ onNodeClick, category, id, scope, filters }) => {
+const NeoGraph = ({ onNodeClick, category, id, scope, filters, editIdAndCat }) => {
     function getCypherByCategory() {
-        switch (category) {
-            case "persons":
-                return `MATCH (p:Person {id:"${id}"})-[r*1..${scope}]-(n) RETURN p,r,n`;
-            case "locations":
-                return `MATCH (l:Location {id: "${id}"})-[r*1..${scope}]-(n) RETURN l,r,n`;
-            case "cities":
-                return `MATCH (c:City {id: "${id}"})-[r*1..${scope}]-(n) RETURN c,r,n`;
-            case "relays":
-                return `MATCH (re:Relay {id: "${id}"})-[r*1..${scope}]-(n) RETURN re,r,n`;
-            case "cases":
-                return `MATCH (c:Case {id: "${id}"})-[r*1..${scope}]-(n) RETURN c,r,n`;
-            default:
-                return `MATCH (n:Person {id: "${id}"})-[r*1..${scope}]-(n) RETURN c,r,n`;
-        }
+        return `MATCH (p:${category} {id:"${id}"})-[r*1..${scope}]-(n) RETURN p,r,n`;
     }
 
     useEffect(() => {
+
         const config = {
             containerId: "viz",
             neo4j: {
@@ -112,25 +100,23 @@ const NeoGraph = ({ onNodeClick, category, id, scope, filters }) => {
             const edges = network.body.data.edges.get();
             const nodes = network.body.data.nodes.get();
 
-            // Filtrer les nœuds en fonction des filtres
             const filteredNodes = nodes.filter((node) => {
                 const labels = node.raw?.labels || [];
                 let showNode = false;
 
-                // Appliquer les filtres sur les types de nœuds
-                if (filters.persons && labels.includes("Person")) {
+                if (filters.Person && labels.includes("Person")) {
                     showNode = true;
-                } else if (filters.locations && labels.includes("Location")) {
+                } else if (filters.Location && labels.includes("Location")) {
                     showNode = true;
-                } else if (filters.cities && labels.includes("City")) {
+                } else if (filters.City && labels.includes("City")) {
                     showNode = true;
-                } else if (filters.relays && labels.includes("Relay")) {
+                } else if (filters.Relay && labels.includes("Relay")) {
                     showNode = true;
-                } else if (filters.cases && labels.includes("Case")) {
+                } else if (filters.Case && labels.includes("Case")) {
                     showNode = true;
-                } else if (filters.fadettes && labels.includes("Fadette")) {
+                } else if (filters.Fadette && labels.includes("Fadette")) {
                     showNode = true;
-                } else if (filters.testimonies && labels.includes("Testimony")) {
+                } else if (filters.Testimony && labels.includes("Testimony")) {
                     showNode = true;
                 }
 
@@ -148,6 +134,17 @@ const NeoGraph = ({ onNodeClick, category, id, scope, filters }) => {
                 edge.label = relationshipType;
                 network.body.data.edges.update([edge]);
             });
+
+            network.on("oncontext", (event) => {
+                event.event.preventDefault();
+                const nodeId = network.getNodeAt({ x: event.pointer.DOM.x, y: event.pointer.DOM.y });
+                if (nodeId) {
+                    const nodeData = network.body.data.nodes.get(nodeId);
+                    if (nodeData) {
+                        editIdAndCat(nodeData.raw.properties.id, nodeData.raw.labels[0]);
+                    }
+                }
+            });
         });
 
         viz.registerOnEvent("clickNode", (event) => {
@@ -157,7 +154,11 @@ const NeoGraph = ({ onNodeClick, category, id, scope, filters }) => {
         });
 
         viz.render();
-    }, [scope, filters]);
+
+        return () => {
+            viz.clearNetwork();
+        };
+    }, [scope, filters, category, id]);
 
     return (
         <div style={{ textAlign: "center", width: "100%", height: "100%" }}>

@@ -7,7 +7,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 0 20px; /* Ajouté pour les écrans plus petits */
+    padding: 0 20px;
 }
 
 .search-title {
@@ -15,7 +15,7 @@
     font-size: 32px;
     font-weight: bold;
     text-align: center;
-    margin-bottom: 20px; /* Ajouté pour espacer du contenu en dessous */
+    margin-bottom: 20px;
 }
 
 .search-container-background {
@@ -24,9 +24,9 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    max-width: 600px; /* Limite la largeur pour un design plus soigné */
+    max-width: 600px;
     padding: 20px;
-    background-color: rgba(0, 0, 0, 0.6); /* Ajoute un fond transparent pour améliorer la lisibilité */
+    background-color: rgba(0, 0, 0, 0.6);
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
 }
@@ -43,14 +43,14 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 20px; /* Ajouté pour espacer la dropdown */
+    margin-bottom: 20px;
 }
 
 .search-bar {
     background-color: #1B1B26;
     height: 2.5rem;
     width: 100%;
-    max-width: 400px; /* Limite la largeur de la barre de recherche */
+    max-width: 400px;
     padding: 0 15px;
     box-shadow: 0px 0px 8px #353535;
     display: flex;
@@ -77,7 +77,7 @@ input:focus {
     flex-direction: column;
     border-radius: 10px;
     width: 100%;
-    max-width: 400px; /* Limite la largeur pour s'aligner avec la barre de recherche */
+    max-width: 400px;
     max-height: 300px;
     overflow-y: auto;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
@@ -104,13 +104,14 @@ input:focus {
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
     cursor: pointer;
 }
-#search-icon{
+
+#search-icon {
     color: white;
     font-size: 20px;
     margin-right: 10px;
 }
 
-.button{
+.button {
     background-color: #1B1B26;
     color: white;
     font-size: 16px;
@@ -120,7 +121,7 @@ input:focus {
     cursor: pointer;
     margin-top: 10px;
     box-shadow: 0 0px 10px rgba(0, 0, 0, 0.5);
-    cursor: pointer;    
+    cursor: pointer;
 }
 
 .link {
@@ -128,19 +129,19 @@ input:focus {
     text-decoration: none;
 }
 
-.absolute{
+.absolute {
     position: absolute;
     right: 32px;
     bottom: 32px;
 }
 
-.row{
+.row {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
 }
 
-.addCase{
+.addCase {
     width: 12vw;
 }
