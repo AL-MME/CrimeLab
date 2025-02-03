@@ -1,4 +1,4 @@
-import SearchBar from '../components/searchBar';
+import SearchBar from '../components/SearchBar';
 import { useState } from 'react';
 import '../css/search.css';
 import { SearchResultList } from '../components/SearchResultList';
@@ -7,7 +7,7 @@ import { FaPlus } from 'react-icons/fa';
 
 const Search = () => {
     const [results, setResults] = useState([]);
-    const [category, setCategory] = useState("persons");
+    const [category, setCategory] = useState("Person");
 
     const handleCategoryChange = (e) => {
         setCategory(e.target.value);
@@ -32,17 +32,17 @@ const Search = () => {
                     onChange={handleCategoryChange}
                     className="category-dropdown"
                 >
-                    <option value="persons">Personnes</option>
-                    <option value="locations">Adresses</option>
-                    <option value="cities">Villes</option>
-                    <option value="relays">Relais</option>
-                    <option value="cases">Affaires</option>
+                    <option value="Person">Personnes</option>
+                    <option value="Location">Adresses</option>
+                    <option value="City">Villes</option>
+                    <option value="Relay">Relais</option>
+                    <option value="Case">Affaires</option>
                 </select>
             </div>
-            <button className="button absolute row addCase">
+            <div className='button absolute row addCase'>
                 <FaPlus className='icon' />
                 <Link to="/form/cases" className='link'>Ajouter une affaire</Link>
-            </button>
+            </div>
         </div>
 
     );

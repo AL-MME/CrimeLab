@@ -5,32 +5,19 @@ const SearchBar = ({ setResults, category }) => {
     const [input, setInput] = useState('');
     const [allData, setAllData] = useState([]);
 
-    const fetchData = async () => {
-        try {
-            const realCat = category === "GPS" ? "locations" : category;
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/${realCat}`);
-            if (!response.ok) throw new Error(`Erreur : Impossible de récupérer les données pour la catégorie ${realCat}`);
-            const data = await response.json();
-
-            setAllData(data);
-        } catch (err) {
-            console.error("Erreur de récupération :", err);
-        }
-    };
-
     const filterResults = (value, data = allData) => {
         if (value === "") return setResults([]);
         const filtered = data.filter((item) => {
             switch (category) {
-                case "persons":
+                case "Person":
                     return `${item.firstname} ${item.lastname}`.toLowerCase().includes(value.toLowerCase());
-                case "locations":
+                case "Location":
                     return item.street.toLowerCase().includes(value.toLowerCase());
-                case "cities":
+                case "City":
                     return item.name.toLowerCase().includes(value.toLowerCase());
-                case "relays":
+                case "Relay":
                     return item.name.toLowerCase().includes(value.toLowerCase());
-                case "cases":
+                case "Case":
                     return `${item.type} ${item.date}`.toLowerCase().includes(value.toLowerCase());
                 default:
                     return false;
@@ -39,15 +26,15 @@ const SearchBar = ({ setResults, category }) => {
 
         const formattedResults = filtered.map((item) => {
             switch (category) {
-                case "persons":
+                case "Person":
                     return { name: `${item.firstname} ${item.lastname}`, id: item._id };
-                case "locations":
+                case "Location":
                     return { name: `${item.street}`, id: item._id };
-                case "cities":
+                case "City":
                     return { name: `${item.name}`, id: item._id };
-                case "relays":
+                case "Relay":
                     return { name: `${item.name}`, id: item._id };
-                case "cases":
+                case "Case":
                     const formattedDate = new Date(item.date).toLocaleDateString('fr-FR');
                     return { name: `${item.type} - ${formattedDate}`, id: item._id };
                 default:
@@ -64,6 +51,35 @@ const SearchBar = ({ setResults, category }) => {
     };
 
     useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const realCat = category === "GPS" ? "locations" : category;
+                const response = await fetch(`${process.env.REACT_APP_API_URL}/${await getCategory(realCat)}`);
+                if (!response.ok) throw new Error(`Erreur : Impossible de récupérer les données pour la catégorie ${realCat}`);
+                const data = await response.json();
+
+                setAllData(data);
+            } catch (err) {
+                console.error("Erreur de récupération :", err);
+            }
+        };
+
+        const getCategory = async (category) => {
+            switch (category) {
+                case "Person":
+                    return "persons";
+                case "Location":
+                    return "locations";
+                case "City":
+                    return "cities";
+                case "Relay":
+                    return "relays";
+                case "Case":
+                    return "cases";
+                default:
+                    return "persons";
+            }
+        }
         fetchData();
     }, [category]);
 
