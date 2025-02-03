@@ -59,6 +59,7 @@
     color: white;
     font-size: 32px;
     font-weight: lighter;
+    cursor: pointer;
 }
 
 .details-node {
