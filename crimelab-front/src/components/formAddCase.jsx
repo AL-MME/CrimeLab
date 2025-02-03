@@ -1,17 +1,22 @@
-import '../css/form.css';
-import {useState} from "react";
+import React, { useState } from "react";
+import AddPersonPopup from "./popUpAddPerson"; // Importer le composant Popup
+import "../css/form.css";
 
 const FormAddCase = () => {
     const [formData, setFormData] = useState({
-        crimeName: '',
-        date: '',
-        lieu: '',
-        temoins: '',
-        suspect: '',
-        victime: '',
-        description: '',
+        crimeName: "",
+        date: "",
+        lieu: "",
+        temoins: "",
+        suspect: "",
+        victime: "",
+        description: "",
     });
 
+    const [victims, setVictims] = useState([]); // Liste des victimes
+    const [isPopupOpen, setIsPopupOpen] = useState(false); // État pour afficher ou cacher la popup
+
+    // Gestion des changements de formulaire
     const handleChange = (e) => {
         const { id, value } = e.target;
         setFormData((prevData) => ({
@@ -20,9 +25,26 @@ const FormAddCase = () => {
         }));
     };
 
+    // Gestion de l'ouverture de la popup
+    const handleOpenPopup = () => {
+        setIsPopupOpen(true);
+    };
+
+    // Gestion de la fermeture de la popup
+    const handleClosePopup = () => {
+        setIsPopupOpen(false);
+    };
+
+    // Gestion de l'ajout d'une victime
+    const handleAddVictim = (victimData) => {
+        setVictims((prevVictims) => [...prevVictims, victimData]); // Ajouter la victime à la liste
+        setIsPopupOpen(false); // Fermer la popup
+    };
+
+    // Soumission du formulaire
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('Form Data:', formData);
+        console.log("Form Data:", { ...formData, victims });
     };
 
     return (
@@ -80,71 +102,21 @@ const FormAddCase = () => {
 
                     <div className="testt">
                         <div className="label">
-                            <label htmlFor="temoins">Témoins</label>
-                            <div className="test">
-                                <select
-                                    id="temoins"
-                                    className="witness"
-                                    onChange={handleChange}
-                                >
-                                    <option value="temoins1">Témoin 1</option>
-                                    <option value="temoins2">Témoin 2</option>
-                                    <option value="temoins3">Témoin 3</option>
-                                    <option value="temoins4">Témoin 4</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div className="testt">
-                            <div className="label">
-                                <label htmlFor="suspect">Suspect</label>
-                                <div className="test">
-                                    <select
-                                        id="suspect"
-                                        className="witness"
-                                        onChange={handleChange}
-                                    >
-                                        <option value="suspect1">Suspect 1</option>
-                                        <option value="suspect2">Suspect 2</option>
-                                        <option value="suspect3">Suspect 3</option>
-                                        <option value="suspect4">Suspect 4</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="testt">
-                        <div className="label">
-                            <label htmlFor="victime">Victime</label>
-                            <div className="test">
-                                <select
-                                    id="victime"
-                                    className="witness"
-                                    onChange={handleChange}
-                                >
-                                    <option value="victime1">Victime 1</option>
-                                    <option value="victime2">Victime 2</option>
-                                    <option value="victime3">Victime 3</option>
-                                    <option value="victime4">Victime 4</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div className="label">
-                            <label htmlFor="temoignage">Témoignage</label>
-                            <div className="test">
-                                <select
-                                    id="victime"
-                                    className="witness"
-                                    onChange={handleChange}
-                                >
-                                    <option value="temoignage1">Témoignage 1</option>
-                                    <option value="temoignage2">Témoignage 2</option>
-                                    <option value="temoignage3">Témoignage 3</option>
-                                    <option value="temoignage4">Témoignage 4</option>
-                                </select>
-                            </div>
+                            <label htmlFor="victime">Victimes</label>
+                            <ul>
+                                {victims.map((victim, index) => (
+                                    <li key={index}>
+                                        {victim.firstName} {victim.lastName}, {victim.age} ans
+                                    </li>
+                                ))}
+                            </ul>
+                            <button
+                                type="button"
+                                className="button"
+                                onClick={handleOpenPopup} // Ouvre la popup
+                            >
+                                Ajouter une victime
+                            </button>
                         </div>
                     </div>
 
@@ -155,8 +127,15 @@ const FormAddCase = () => {
                     </div>
                 </form>
             </div>
+
+            {isPopupOpen && (
+                <AddPersonPopup
+                    onClose={handleClosePopup} // Fermer la popup
+                    onAdd={handleAddVictim} // Ajouter une victime
+                />
+            )}
         </div>
     );
-}
+};
 
 export default FormAddCase;
