@@ -80,10 +80,14 @@
     cursor: pointer;
 }
 
-.details-key-value {
+.details-key-value-p {
     color: white;
     font-weight: lighter;
     margin-bottom: 8px;
+}
+
+.details-key-value-input {
+    color: black;
 }
 
 .node-details-content {

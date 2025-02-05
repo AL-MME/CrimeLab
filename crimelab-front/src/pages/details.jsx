@@ -50,6 +50,7 @@ export const Details = () => {
 
     const onNodeChange = () => {
         setShowDetails(false);
+        window.location.reload();
     }
 
     return (
