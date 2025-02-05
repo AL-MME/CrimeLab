@@ -9,6 +9,7 @@ export const Details = () => {
     const [id, setId] = useState(storedData ? JSON.parse(storedData).id : "");
     const [category, setCat] = useState(storedData ? JSON.parse(storedData).category : "");
     const [showDetails, setShowDetails] = useState(false);
+    const [clickedNodeCategory, setClickedNodeCategory] = useState("");
     const [nodeDetails, setNodeDetails] = useState({});
     const [scope, setScope] = useState(1);
     const [filters, setFilters] = useState({
@@ -32,6 +33,7 @@ export const Details = () => {
 
     const handleNodeClick = (node) => {
         setNodeDetails(node.raw.properties);
+        setClickedNodeCategory(node.raw.labels[0]);
         setShowDetails(true);
     };
 
@@ -44,6 +46,10 @@ export const Details = () => {
         console.log("id", id, "category", category);
         setId(id);
         setCat(category);
+    }
+
+    const onNodeChange = () => {
+        setShowDetails(false);
     }
 
     return (
@@ -122,7 +128,7 @@ export const Details = () => {
                 <div className="details-content">
                     <NeoGraph onNodeClick={handleNodeClick} category={category} id={id} scope={scope} filters={filters} editIdAndCat={editIdAndCat} />
                 </div>
-                {showDetails && <NodeDetails node={nodeDetails} closeDetails={closeDetails} />}
+                {showDetails && <NodeDetails node={nodeDetails} closeDetails={closeDetails} category={clickedNodeCategory} onNodeChange={() => onNodeChange()} />}
             </div>
         </div>
     );
