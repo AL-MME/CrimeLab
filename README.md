@@ -1,6 +1,11 @@
 # CrimeLab
 Projet de noSql. Objectif, à partir d'une bdd d'appel, pouvoir regrouper des individus et faire des liens entre eux.
 
+Groupe : 
+- Enzo MOY
+- Manon ROULEAU
+- Mathis FREMIOT
+
 # Scénario 1 avec liens
 
 Une voiture a été signalée volée, le propriétaire a découvert le vol en sortant du cinéma de la défense le 1er Janvier 2024 à 20h. Les forces de l’ordre ont été alertées grâce aux témoins. Le suspect Lucas a été interpellé par les policer et ses complices sont actuellement recherchés.
