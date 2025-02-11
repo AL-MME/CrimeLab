@@ -8,7 +8,7 @@ interface ITestimonie extends Document {
 }
 
 const TestimonieSchema: Schema = new Schema({
-    case: { type: String, required: true },
+    case: { type: String, required: false },
     person: { type: String, required: true },
     description: { type: String, required: true },
     date: { type: Date, required: true }

@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 
 const AddPersonPopup = ({ onClose, onAdd }) => {
-    const [peronData, setPersonData] = useState({
+    const [personData, setPersonData] = useState({
         firstname: "",
         lastname: "",
         age: "",
         location: "",
-        call_history: [],
     });
+
+    const API_URL = process.env.REACT_APP_API_URL;
 
     const handleChange = (e) => {
         const { id, value } = e.target;
@@ -17,9 +18,27 @@ const AddPersonPopup = ({ onClose, onAdd }) => {
         }));
     };
 
-    const handleSubmit = (e) => {
+
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        onAdd(peronData);
+        try {
+            const response = await fetch(`${API_URL}/persons`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(personData),
+            });
+            if (!response.ok) {
+                throw new Error("Erreur lors de la création de la personne");
+            }
+            const newPerson = await response.json();
+            onAdd(newPerson);
+            onClose();
+        } catch (error) {
+            console.error("Erreur:", error);
+        }
     };
 
     return (

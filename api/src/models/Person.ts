@@ -13,7 +13,7 @@ const PersonSchema: Schema = new Schema({
     lastname: { type: String, required: true },
     age: { type: Number, required: true },
     location: { type: String, required: true },
-    call_history: { type: [String], default: [] }
+    call_history: { type: [String], default: [], required: false },
 }, {
     versionKey: false
 });
