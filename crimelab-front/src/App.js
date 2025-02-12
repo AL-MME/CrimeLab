@@ -4,6 +4,7 @@ import { Details } from './pages/details';
 import PersonEdition from "./components/NodeEdition/PersonEdition";
 import CityEdition from "./components/NodeEdition/CityEdition";
 import LocationEdition from "./components/NodeEdition/LocationEdition";
+import RelayEdition from "./components/NodeEdition/RelayEdition";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/edit/persons/:id" element={<PersonEdition />} />
         <Route path="/edit/cities/:id" element={<CityEdition />} />
         <Route path="/edit/locations/:id" element={<LocationEdition />} />
+        <Route path="/edit/relays/:id" element={<RelayEdition />} />
       </Routes>
     </Router>
   );
