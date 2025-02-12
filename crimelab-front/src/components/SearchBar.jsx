@@ -1,5 +1,6 @@
 import { FaSearch } from 'react-icons/fa';
 import { useState, useEffect } from 'react';
+import {CategoryAdapter} from "../utils/categoryAdapter";
 
 const SearchBar = ({ setResults, category }) => {
     const [input, setInput] = useState('');
@@ -54,7 +55,7 @@ const SearchBar = ({ setResults, category }) => {
         const fetchData = async () => {
             try {
                 const realCat = category === "GPS" ? "locations" : category;
-                const response = await fetch(`${process.env.REACT_APP_API_URL}/${await getCategory(realCat)}`);
+                const response = await fetch(`${process.env.REACT_APP_API_URL}/${CategoryAdapter.adaptCategory(category)}`);
                 if (!response.ok) throw new Error(`Erreur : Impossible de récupérer les données pour la catégorie ${realCat}`);
                 const data = await response.json();
 
@@ -63,23 +64,6 @@ const SearchBar = ({ setResults, category }) => {
                 console.error("Erreur de récupération :", err);
             }
         };
-
-        const getCategory = async (category) => {
-            switch (category) {
-                case "Person":
-                    return "persons";
-                case "Location":
-                    return "locations";
-                case "City":
-                    return "cities";
-                case "Relay":
-                    return "relays";
-                case "Case":
-                    return "cases";
-                default:
-                    return "persons";
-            }
-        }
         fetchData();
     }, [category]);
 

@@ -1,8 +1,9 @@
 import React from "react";
 import "../css/details.css";
 import { FaTimes } from "react-icons/fa";
+import {RemoveNodeButton} from "./RemoveNodeButton";
 
-export const NodeDetails = ({ node, closeDetails }) => {
+export const NodeDetails = ({ node, closeDetails, category, onNodeChange }) => {
     return (
         <div className="details-node">
             <FaTimes className="close-icon" onClick={closeDetails} />
@@ -19,7 +20,7 @@ export const NodeDetails = ({ node, closeDetails }) => {
                     );
                 })}
             </div>
-            <button className="details-close-button">Supprimer</button>
+            <RemoveNodeButton nodeId={node.id} nodeCategory={category} onDelete={() => onNodeChange()} />
         </div>
     );
 };
