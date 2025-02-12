@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import '../../css/NodeEdition/editPerson.css';
+import '../../css/NodeEdition/editNode.css';
 
 function PersonEdition() {
     const [personData, setPersonData] = useState(null);
@@ -87,7 +87,7 @@ function PersonEdition() {
 
     return (
         <div className={'form-background'}>
-            <div className="person-edition">
+            <div className="node-edition">
                 <h1>Edit Person</h1>
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
