@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import '../../css/editPerson.css';
+import '../../css/NodeEdition/editPerson.css';
 
 function PersonEdition() {
     const [personData, setPersonData] = useState(null);
