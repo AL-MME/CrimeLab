@@ -1,12 +1,15 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Search from "./pages/search";
+import FormAddCase from "./components/Form/formAddCase";
 import { Details } from './pages/details';
+
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Search />} />
+        <Route path="/form" element={<FormAddCase />} />
         <Route path="/details" element={<Details />} />
       </Routes>
     </Router>
