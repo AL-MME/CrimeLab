@@ -43,6 +43,7 @@ export const Details = () => {
 
     const editIdAndCat = (id, category) => {
         localStorage.setItem("details", JSON.stringify({ id, category }));
+        console.log("id", id, "category", category);
         setId(id);
         setCat(category);
     }
