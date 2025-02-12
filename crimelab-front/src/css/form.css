@@ -248,6 +248,7 @@ input:focus, select:focus, textarea:focus {
 }
 
 .person-selection .button {
+    margin-top: 0;
     width: 30%;
     padding: 5px 10px;
     font-size: 14px;

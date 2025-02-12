@@ -39,9 +39,9 @@ const Search = () => {
                     <option value="Case">Affaires</option>
                 </select>
             </div>
-            <div className='button absolute row addCase'>
+            <div className='floatingButton absolute row addCase'>
                 <FaPlus className='icon' />
-                <Link to="/form/cases" className='link'>Ajouter une affaire</Link>
+                <Link to="/form" className='link'>Ajouter une affaire</Link>
             </div>
         </div>
 
