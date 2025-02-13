@@ -44,13 +44,13 @@
     background: #444455;
 }
 
-/* Style du formulaire */
 .form-container {
     display: flex;
     flex-direction: column;
     gap: 15px;
     width: 100%;
     color: #ffffff;
+    position: relative;
 }
 
 .label {
@@ -259,4 +259,14 @@ input:focus, select:focus, textarea:focus {
     display: flex;
     align-items: center;
     gap: 8px;
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: transparent;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
 }

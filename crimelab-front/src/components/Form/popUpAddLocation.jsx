@@ -103,14 +103,14 @@ const AddLocationPopup = ({ onClose, onAdd }) => {
                     </div>
 
                     <input
-                        type="text"
+                        type="number"
                         id="lat"
                         placeholder="Latitude"
                         onChange={handleChange}
                         required
                     />
                     <input
-                        type="text"
+                        type="number"
                         id="lon"
                         placeholder="Longitude"
                         onChange={handleChange}

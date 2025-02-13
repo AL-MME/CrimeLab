@@ -70,4 +70,14 @@ export class TestimoniesController {
             res.status(500).json({ error: error.message });
         }
     }
+
+    static async getAllTestimoniesWithNoCase(req: Request, res: Response): Promise<void> {
+        try {
+            console.log("passe dans getAllTestimoniesWithNoCase")
+            const testimoniesWithoutCase = await TestimoniesService.getTestimoniesWithoutCase();
+            res.status(200).json(testimoniesWithoutCase);
+        } catch (error: any) {
+            res.status(500).json({error: error.message});
+        }
+    }
 }

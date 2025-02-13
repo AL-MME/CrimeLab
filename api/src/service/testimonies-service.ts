@@ -32,4 +32,8 @@ export class TestimoniesService {
         }
         return await TestimoniesRepository.delete(testimonieId);
     }
+
+    static async getTestimoniesWithoutCase(): Promise<ITestimonie[]> {
+        return await TestimoniesRepository.readAllWithNoCase();
+    }
 }

@@ -3,6 +3,7 @@ import AddPersonPopup from "./popUpAddPerson";
 import AddLocationPopup from "./popUpAddLocation";
 import "../../css/form.css";
 import AddTestimoniesPopup from "./popUpAddTestimonies";
+import {useNavigate} from "react-router-dom";
 
 const FormAddCase = () => {
     const [formData, setFormData] = useState({
@@ -11,6 +12,8 @@ const FormAddCase = () => {
         lieu: "",
         description: "",
     });
+
+    const navigate = useNavigate();
 
     const API_URL = process.env.REACT_APP_API_URL;
 
@@ -58,7 +61,7 @@ const FormAddCase = () => {
 
         const fetchTestimonies = async () => {
             try {
-                const response = await fetch(`${API_URL}/testimonies`);
+                const response = await fetch(`${API_URL}/testimonies/get/noCase`);
                 if (!response.ok) throw new Error("Erreur lors de la récupération des témoignages");
                 const testimonies = await response.json();
                 setAllTestimonies(testimonies);
@@ -205,11 +208,9 @@ const FormAddCase = () => {
             setWitnesses([]);
             setTestimonies([]);
             setSelectedLocation(null);
-
-            alert("Affaire ajoutée avec succès !");
+            navigate(`/`)
         } catch (error) {
             console.error("Erreur:", error);
-            alert("Une erreur est survenue.");
         }
     };
 
@@ -241,7 +242,13 @@ const FormAddCase = () => {
         <div className="page-container">
             <div className="container">
                 <form className="form-container" onSubmit={handleSubmit}>
-
+                    <button
+                        type="button"
+                        className="close-button"
+                        onClick={() => navigate(`/`)}
+                    >
+                        ❌
+                    </button>
 
                     <div className="testt">
                         <div className="label">
@@ -387,7 +394,7 @@ const FormAddCase = () => {
                 </form>
             </div>
 
-            {isPopupOpenPerson && <AddPersonPopup onClose={handleClosePopupPerson} onAdd={handleAddPerson} />}
+            {isPopupOpenPerson && <AddPersonPopup onClose={handleClosePopupPerson} onAdd={handleAddPerson} onAddLocation={handleAddLocation} />}
             {isPopupOpenLocation && <AddLocationPopup onClose={handleClosePopupLocation} onAdd={handleAddLocation} />}
             {isPopupOpenTestimonie && (<AddTestimoniesPopup onClose={handleClosePopupTestimonie} onAdd={handleAddTestimonie} onAddPerson={handleAddPerson}/>)}
         </div>
