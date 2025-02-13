@@ -1,92 +1,86 @@
 # CrimeLab
-Projet de noSql. Objectif, à partir d'une bdd d'appel, pouvoir regrouper des individus et faire des liens entre eux.
 
-Groupe : 
-- Enzo MOY
-- Manon ROULEAU
-- Mathis FREMIOT
+CrimeLab est un projet de base de données NoSQL ayant pour objectif de partir d'une base de données non relationnelle et de générer des schémas visuels mettant en évidence les relations entre les différentes données.
 
-# Scénario 1 avec liens
+## Équipe de développement
 
-Une voiture a été signalée volée, le propriétaire a découvert le vol en sortant du cinéma de la défense le 1er Janvier 2024 à 20h. Les forces de l’ordre ont été alertées grâce aux témoins. Le suspect Lucas a été interpellé par les policer et ses complices sont actuellement recherchés.
+- **Enzo MOY**
+- **Manon ROULEAU**
+- **Mathis FREMIOT**
 
-# Scénario 2 sans liens
+## Description des scénarios
 
-Un vol de bijoux dans une maison à Bordeaux le 2 janvier 2024 à 23h, par un ancien sérurier. On cherche s'il pourrait avoir un complice.
+### 🕵️‍♂️ Scénario 1 : Avec relations
 
-# API
-## Technos  
-- Typescript
-- Express
+Une voiture a été signalée volée. Le propriétaire a découvert le vol en sortant du cinéma de La Défense, le 1er janvier 2024 à 20h. Les forces de l'ordre ont été alertées grâce aux témoignages recueillis sur place. Le suspect Lucas a été interpellé, et ses complices sont actuellement recherchés.
 
-## Installation 
-- npm install
+### 🧩 Scénario 2 : Sans relations
 
-## Principales routes
+Un vol de bijoux a été commis dans une maison à Bordeaux, le 2 janvier 2024 à 23h. Le principal suspect est un ancien serrurier. L'enquête vise à déterminer s'il aurait pu agir avec un complice.
 
-# Frontend
-## Technos
-- React ? 
-- NeovisJs
+## 🛠️ Technologies utilisées
 
-## Feature
-- Retrouver les informations d'un dossier (une affaire)
-- Voir les dossiers liés à un user
-- Qui était à proximité d'un lieu aux alentours d'un horaire
-- Ajouter des dossiers
-- etc à voir (go rajouter des trucs pour avoir la meilleure note ex : trouver un lien entre deux personnes...)
+### Backend
+- **TypeScript**
+- **Express**
 
+### Frontend
+- **React.js**
+- **Neovis.js** *(Visualisation de graphes)*
 
-# DB
-## Technos
-- MongoDB
-- Neo4j
-- Kafka
+### Bases de données
+- **MongoDB** *(NoSQL)*
+- **Neo4j** *(Base orientée graphe)*
 
-## Collections
-### Cases 
-- Type : String
-- Description : String
-- Date : DateTime
-- Location : Location
-- Suspects : Persons[]
-- Victims : Persons[]
-- Witnesses : Persons[]
-- Testimonies : Testimonies[]
+## 🚀 Installation et initialisation des bases de données
 
-### Persons
-- Firstname : String
-- Lastname : String
-- Age : Number
-- Location : Location
+1. **Lancer les conteneurs Docker :**
 
-### Cities
-- Name : String
-- Country : String
-- Lat : Number
-- Lon : Number
-- Postal_code : String
+```bash
+cd ./db
+docker-compose up --build -d
+```
 
-### Testimonies
-- Case : Case
-- Person: Person
-- Description : String
-- Date : DateTime
+2. **Initialiser la réplication et charger les données :**
 
-### Fadettes
-- Date : DateTime
-- Duree : Number
-- Caller : Person
-- Receiver : Person
-- Type : String
-- Relay : Relay
+```bash
+docker exec -it mongo mongosh
+rs.initiate({
+    _id: 'rs0',
+    members: [
+        { _id: 0, host: 'mongo:27017' }
+    ]
+});
+use crimeLab
+load('/docker-entrypoint-initdb.d/init.js')
+```
 
-### Relays
-- Name : String
-- Location : Location
+## ▶️ Démarrer l'application
 
-### Locations
-- Street : String
-- City : City
-- Lat : Number
-- Lon : Number
+1. **Démarrer l'API :**
+
+```bash
+cd ./api
+npm install
+npm start
+```
+
+2. **Démarrer le frontend :**
+
+```bash
+cd ./crimelab-front
+npm install
+npm start
+```
+
+## 🔍 Utilisation
+
+Accédez à l'interface utilisateur via [http://localhost:3000](http://localhost:3000) pour interagir avec les données et visualiser les relations sous forme de graphes.
+
+## ⚠️ Remarques
+
+- Assurez-vous que Docker est installé et en cours d'exécution.
+- MongoDB doit être correctement initialisé avant de lancer l'application.
+
+Bon développement et bonne enquête ! 🧠🔍
+
