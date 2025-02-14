@@ -92,7 +92,7 @@ const AddLocationPopup = ({ onClose, onAdd }) => {
                         <select id="city" value={locationData.city} onChange={handleChange} required>
                             <option value="">Sélectionner une ville</option>
                             {cities.map((city) => (
-                                <option key={city._id} value={city.name}>
+                                <option key={city._id} value={city._id}>
                                     {city.name} ({city.country})
                                 </option>
                             ))}

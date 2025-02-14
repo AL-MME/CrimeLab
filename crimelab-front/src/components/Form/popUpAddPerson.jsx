@@ -10,10 +10,13 @@ const AddPersonPopup = ({ onClose, onAdd, onAddLocation}) => {
     });
     const [allLocations, setAllLocations] = useState([]);
     const [isPopupOpenLocation, setIsPopupOpenLocation] = useState(false);
+    const [ageError, setAgeError] = useState("");
+    const [allcities, setAllcities] = useState([]);
 
     const API_URL = process.env.REACT_APP_API_URL;
 
     const handleChange = (e) => {
+
         const { id, value } = e.target;
         setPersonData((prevData) => ({
             ...prevData,
@@ -33,13 +36,36 @@ const AddPersonPopup = ({ onClose, onAdd, onAddLocation}) => {
             }
         };
 
+        const fetchCities = async () => {
+            try {
+                const response = await fetch(`${API_URL}/cities`);
+                if (!response.ok) {
+                    throw new Error("Erreur lors de la récupération des villes");
+                }
+                const data = await response.json();
+                setAllcities(data);
+            } catch (error) {
+                console.error("Erreur:", error);
+            }
+        };
+
+
         fetchLocations();
+        fetchCities();
     }, []);
 
 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (personData.age > 0) {
+            setAgeError("La date du crime ne peut pas être dans le futur.");
+            return;
+        } else {
+            setAgeError("");
+        }
+
         try {
             const response = await fetch(`${API_URL}/persons`, {
                 method: "POST",
@@ -73,16 +99,22 @@ const AddPersonPopup = ({ onClose, onAdd, onAddLocation}) => {
                 <form onSubmit={handleSubmit}>
                     <input type="text" id="firstname" placeholder="Prénom" onChange={handleChange} required />
                     <input type="text" id="lastname" placeholder="Nom" onChange={handleChange} required />
-                    <input type="number" id="age" placeholder="Âge" onChange={handleChange} required />
+                    <div>
+                        <input type="number" id="age" placeholder="Âge" min="0" onChange={handleChange} required />
+                        {ageError && <p className="error-message">{ageError}</p>}
+                    </div>
                     <div className="person-selection">
                         <select id="location" onChange={handleChange} required>
                             <option value="">Sélectionnez un lieu</option>
-                            {allLocations.map((location) => (
-                                <option key={location._id} value={location._id}>
-                                    {location.street}
-                                </option>
-                            ))}
-                        </select>
+                            {allLocations.map((location) => {
+                                const city = allcities.find(city => city._id === location.city);
+                                return (
+                                    <option key={location._id} value={location._id}>
+                                        {location.street}, {city ? city.name : "Ville inconnue"}
+                                    </option>
+                                );
+                            })}
+                            </select>
                         <button type="button" className="button small-button" onClick={() => setIsPopupOpenLocation(true)}>
                             Ajouter
                         </button>

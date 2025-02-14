@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import AddPersonPopup from "./popUpAddPerson"; // Importation de la popup d'ajout de personne
+import AddPersonPopup from "./popUpAddPerson";
 
 const API_URL = process.env.REACT_APP_API_URL;
 
@@ -12,6 +12,8 @@ const AddTestimoniesPopup = ({ onClose, onAdd, onAddPerson }) => {
 
     const [allPersons, setAllPersons] = useState([]);
     const [isPopupOpenPerson, setIsPopupOpenPerson] = useState(false);
+    const [dateError, setDateError] = useState("");
+
     useEffect(() => {
         fetchPersons();
     }, []);
@@ -37,6 +39,15 @@ const AddTestimoniesPopup = ({ onClose, onAdd, onAddPerson }) => {
 
     const handleSubmitTestimonie = async (e) => {
         e.preventDefault();
+
+        const today = new Date().toISOString().split("T")[0];
+        if (formData.date > today) {
+            setDateError("La date du crime ne peut pas être dans le futur.");
+            return;
+        } else {
+            setDateError("");
+        }
+
         try {
             const response = await fetch(`${API_URL}/testimonies`, {
                 method: "POST",
@@ -104,6 +115,8 @@ const AddTestimoniesPopup = ({ onClose, onAdd, onAddPerson }) => {
 
                     <label>Date :</label>
                     <input type="date" id="date" value={formData.date} onChange={handleChange} required />
+                    {dateError && <p className="error-message">{dateError}</p>}
+
 
                     <button type="submit" className="popup-button">Enregistrer</button>
                 </form>

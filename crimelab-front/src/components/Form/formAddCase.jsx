@@ -23,11 +23,14 @@ const FormAddCase = () => {
     const [testimonies, setTestimonies] = useState([]);
     const [selectedLocation, setSelectedLocation] = useState(null);
     const [allPersons, setAllPersons] = useState([]);
+    const [allcities, setAllcities] = useState([]);
     const [allLocations, setAllLocations] = useState([]);
     const [allTestimonies, setAllTestimonies] = useState([]);
     const [isPopupOpenPerson, setIsPopupOpenPerson] = useState(false);
     const [isPopupOpenLocation, setIsPopupOpenLocation] = useState(false);
     const [isPopupOpenTestimonie, setIsPopupOpenTestimonie] = useState(false);
+    const [dateError, setDateError] = useState("");
+
 
     const handleOpenPopupPerson = () => setIsPopupOpenPerson(true);
     const handleClosePopupPerson = () => setIsPopupOpenPerson(false);
@@ -70,9 +73,23 @@ const FormAddCase = () => {
             }
         };
 
+        const fetchCities = async () => {
+            try {
+                const response = await fetch(`${API_URL}/cities`);
+                if (!response.ok) {
+                    throw new Error("Erreur lors de la récupération des villes");
+                }
+                const data = await response.json();
+                setAllcities(data);
+            } catch (error) {
+                console.error("Erreur:", error);
+            }
+        };
+
         fetchPersons();
         fetchLocations();
         fetchTestimonies();
+        fetchCities();
     }, [API_URL]);
 
     const handleChange = (e) => {
@@ -93,7 +110,7 @@ const FormAddCase = () => {
 
     const handleAddTestimonie = (newTestimonie) => {
         setAllTestimonies((prevTestimonies) => [...prevTestimonies, newTestimonie]);
-        setTestimonies((prevTestimonies) => [...prevTestimonies, newTestimonie]); // Ajout immédiat dans la sélection
+        setTestimonies((prevTestimonies) => [...prevTestimonies, newTestimonie]);
     };
 
     const handleSelectVictim = (e) => {
@@ -162,6 +179,14 @@ const FormAddCase = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        const today = new Date().toISOString().split("T")[0];
+        if (formData.date > today) {
+            setDateError("La date du crime ne peut pas être dans le futur.");
+            return;
+        } else {
+            setDateError("");
+        }
+
         const caseData = {
             type: formData.crimeName,
             description: formData.description,
@@ -191,7 +216,7 @@ const FormAddCase = () => {
             const newCase = await response.json();
             console.log("Affaire ajoutée:", newCase);
 
-            const caseId = newCase._id;  // L'ID du cas nouvellement créé
+            const caseId = newCase._id;
 
             for (const testimonie of testimonies) {
                 await updateTestimonieWithCaseId(testimonie._id, caseId);
@@ -258,6 +283,7 @@ const FormAddCase = () => {
                         <div className="label">
                             <label>Date</label>
                             <input type="date" id="date" onChange={handleChange} required />
+                            {dateError && <p className="error-message">{dateError}</p>}
                         </div>
                     </div>
 
@@ -267,9 +293,14 @@ const FormAddCase = () => {
                         <div className="person-selection">
                             <select id="lieu" onChange={handleSelectLocation} required>
                                 <option value="">Sélectionnez un lieu</option>
-                                {allLocations.map((location) => (
-                                    <option key={location._id} value={location._id}>{location.street}</option>
-                                ))}
+                                {allLocations.map((location) => {
+                                    const city = allcities.find(city => city._id === location.city);
+                                    return (
+                                        <option key={location._id} value={location._id}>
+                                            {location.street}, {city ? city.name : "Ville inconnue"}
+                                        </option>
+                                    );
+                                })}
                             </select>
                             <button type="button" className="button small-button" onClick={handleOpenPopupLocation}>
                                 Ajouter
