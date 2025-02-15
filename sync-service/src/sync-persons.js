@@ -38,10 +38,10 @@ const PersonSync = async (mongoClient, neo4jDriver) => {
 const handleInsertPerson = async (change, tx) => {
   const newPerson = change.fullDocument;
 
-  if (newPerson.firstname !== undefined && newPerson.lastname !== undefined && newPerson.age !== undefined && newPerson.location !== undefined) {
+  if (newPerson.firstname !== undefined && newPerson.lastname !== undefined && newPerson.age !== undefined && newPerson.location !== undefined && newPerson.phone !== undefined) {
     await tx.run(
       `
-      CREATE (p:Person {id: $id, firstname: $firstname, lastname: $lastname, age: $age})
+      CREATE (p:Person {id: $id, firstname: $firstname, lastname: $lastname, age: $age, phone: $phone})
       WITH p, $location AS locationId
       MATCH (l:Location {id: locationId})
       MERGE (p)-[:LOCATED_IN]->(l)
@@ -52,6 +52,7 @@ const handleInsertPerson = async (change, tx) => {
         lastname: newPerson.lastname,
         age: newPerson.age,
         location: newPerson.location.toString(),
+        phone: newPerson.phone,
       }
     );
   } else {

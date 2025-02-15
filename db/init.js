@@ -115,48 +115,56 @@ const personsId = db.persons.insertMany([
         "lastname": "Morel",
         "age": 27,
         "location": locationsId.insertedIds[0],
+        "phone": "0601020228"
     },
     {
         "firstname": "Damien",
         "lastname": "Lemoine",
         "age": 25,
         "location": locationsId.insertedIds[2],
+        "phone": "0601020229"
     },
     {
         "firstname": "Karim",
         "lastname": "Djaouad",
         "age": 28,
         "location": locationsId.insertedIds[3],
+        "phone": "0601020300"
     },
     {
         "firstname": "Marie",
         "lastname": "Dubois",
         "age": 45,
         "location": locationsId.insertedIds[4],
+        "phone": "0601020301"
     },
     {
         "firstname": "Ahmed",
         "lastname": "Benali",
         "age": 32,
         "location": locationsId.insertedIds[5],
+        "phone": "0601020302"
     },
     {
         "firstname": "Enzo",
         "lastname": "Lopez",
         "age": 32,
         "location": locationsId.insertedIds[6],
+        "phone": "0601020303"
     },
     {
         "firstname": "René",
         "lastname": "Lefevre",
         "age": 22,
         "location": locationsId.insertedIds[7],
+        "phone": "0601020304"
     },
     {
         "firstname": "Mireille",
         "lastname": "Mercier",
         "age": 70,
         "location": locationsId.insertedIds[8],
+        "phone": "0601020305"
     }
 ]);
 
