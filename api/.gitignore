@@ -130,3 +130,6 @@ dist
 .pnp.*
 
 build
+# Ignore files in uploads but keep the directory
+uploads/*
+!uploads/.gitkeep

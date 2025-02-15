@@ -24,7 +24,7 @@ const Search = () => {
     if (fileInput.files.length > 0) {
         const file = fileInput.files[0];
         const formData = new FormData();
-        formData.append('file', file);
+        formData.append('csv', file);
 
         fetch(`${process.env.REACT_APP_API_URL}/fadettes/csv`, {
             method: 'POST',
@@ -85,7 +85,7 @@ const Search = () => {
               <button type="button" onClick={handlePopup} className="close-button">
                 Close
               </button>
-              <button className="upload-button" onClick={handleUpload()}>Sauvegarder</button>
+              <button className="upload-button" onClick={() => handleUpload()}>Sauvegarder</button>
             </div>
           </div>
         </div>
