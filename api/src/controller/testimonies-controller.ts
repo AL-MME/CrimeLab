@@ -73,11 +73,21 @@ export class TestimoniesController {
 
     static async getAllTestimoniesWithNoCase(req: Request, res: Response): Promise<void> {
         try {
-            console.log("passe dans getAllTestimoniesWithNoCase")
-            const testimoniesWithoutCase = await TestimoniesService.getTestimoniesWithoutCase();
-            res.status(200).json(testimoniesWithoutCase);
+            console.log("passe dans getAllTestimoniesWithNoCase avec condition d'IDs");
+            console.log(req.body.ids)
+            const { ids } = req.body;
+            let testimonies;
+            console.log("ids :", ids)
+
+            if (ids && Array.isArray(ids)) {
+                testimonies = await TestimoniesService.getTestimoniesWithoutCaseByIds(ids);
+            } else {
+                testimonies = await TestimoniesService.getTestimoniesWithoutCase();
+            }
+
+            res.status(200).json(testimonies);
         } catch (error: any) {
-            res.status(500).json({error: error.message});
+            res.status(500).json({ error: error.message });
         }
     }
 }

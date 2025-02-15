@@ -54,13 +54,11 @@ const AddPersonPopup = ({ onClose, onAdd, onAddLocation}) => {
         fetchCities();
     }, []);
 
-
-
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (personData.age > 0) {
-            setAgeError("La date du crime ne peut pas être dans le futur.");
+        if (personData.age < 0) {
+            setAgeError("L'age doit etre suppérieur à 0");
             return;
         } else {
             setAgeError("");
@@ -103,6 +101,7 @@ const AddPersonPopup = ({ onClose, onAdd, onAddLocation}) => {
                         <input type="number" id="age" placeholder="Âge" min="0" onChange={handleChange} required />
                         {ageError && <p className="error-message">{ageError}</p>}
                     </div>
+                    <input type="tel" id="phone" placeholder="Numéro de téléphone" onChange={handleChange} pattern="0[0-9]{9}" required />
                     <div className="person-selection">
                         <select id="location" onChange={handleChange} required>
                             <option value="">Sélectionnez un lieu</option>

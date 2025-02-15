@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import AddCityPopup from "./popUpAddCity";
 
-const AddLocationPopup = ({ onClose, onAdd }) => {
+const AddLocationPopup = ({ onClose, onAdd, onAddCity}) => {
     const [locationData, setLocationData] = useState({
         street: "",
         city: "",
@@ -63,6 +63,8 @@ const AddLocationPopup = ({ onClose, onAdd }) => {
 
     const handleCityAdded = (newCity) => {
         setCities((prevCities) => [...prevCities, newCity]);
+        onAddCity(newCity);
+
         setIsPopupOpenCity(false);
     };
 
@@ -107,6 +109,7 @@ const AddLocationPopup = ({ onClose, onAdd }) => {
                         id="lat"
                         placeholder="Latitude"
                         onChange={handleChange}
+                        step="0.000001"
                         required
                     />
                     <input
@@ -114,6 +117,7 @@ const AddLocationPopup = ({ onClose, onAdd }) => {
                         id="lon"
                         placeholder="Longitude"
                         onChange={handleChange}
+                        step="0.000001"
                         required
                     />
 

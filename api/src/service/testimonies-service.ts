@@ -36,4 +36,13 @@ export class TestimoniesService {
     static async getTestimoniesWithoutCase(): Promise<ITestimonie[]> {
         return await TestimoniesRepository.readAllWithNoCase();
     }
+
+    static async getTestimoniesWithoutCaseByIds(ids: string[]): Promise<ITestimonie[]> {
+        console.log("passe getTestimoniesWithoutCaseByIds")
+        if (!Array.isArray(ids) || ids.some(id => !isObjectId(id))) {
+            console.log("erreur")
+        }
+        console.log("aaaaaaaaa")
+        return await TestimoniesRepository.readAllWithNoCaseByIds(ids);
+    }
 }
