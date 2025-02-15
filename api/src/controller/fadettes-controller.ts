@@ -1,6 +1,8 @@
-import { Request, Response} from 'express';
+import { Request, Response } from 'express';
 import { FadettesService } from '../service/fadettes-service';
 import { IFadette } from '../models/Fadette';
+import csvParser from 'csv-parser';
+import fs from 'fs';
 
 export class FadettesController {
     static async createFadette(req: Request, res: Response): Promise<void> {
@@ -13,6 +15,35 @@ export class FadettesController {
         }
     }
 
+    static async createFadetteByCsv(req: Request, res: Response): Promise<void> {
+        try {
+            if (!req.file) {
+                res.status(400).json({ error: "Fichier CSV manquant" });
+                return;
+            }
+
+            const filePath = req.file.path;
+            const results: any[] = [];
+
+            fs.createReadStream(filePath)
+                .pipe(csvParser())
+                .on('data', (data) => results.push(data))
+                .on('end', async () => {
+                    console.log(results);
+                    await FadettesService.createFadettesFromCsv(results);
+
+                    res.status(200).json({ message: "Fadettes créées avec succès" });
+                })
+                .on('error', (error) => {
+                    console.error("Erreur lors du parsing CSV :", error);
+                    res.status(500).json({ error: "Erreur lors du traitement du fichier CSV" });
+                });
+        } catch (error: any) {
+            res.status(500).json({ error: error.message });
+        }
+    }
+
+    
     static async getFadetteById(req: Request, res: Response): Promise<void> {
         try {
             const fadetteId = req.params.id;

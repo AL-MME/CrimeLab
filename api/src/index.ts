@@ -8,11 +8,13 @@ import { logMiddleware } from "./middlewares/log-middleware";
 import { connectNeo4j } from './config/neo4j';
 import { Session } from 'neo4j-driver';
 import cors from "cors";
+import multer from 'multer';
 
 dotenv.config();
 const app = express();
 app.use(cors({ origin: "http://localhost:3000" }));
 connectDB();
+const upload = multer({ dest: 'uploads/' });
 const driver = connectNeo4j();
 
 app.use(bodyParser.json());

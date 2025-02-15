@@ -1,4 +1,4 @@
-date,duration,caller,receiver,type,relais
+date,duration,caller,receiver,type,relay
 2021-01-01T18:00:00Z,0,0601020305,0601020304,sms,Relay2
 2021-01-01T18:00:00Z,30,0601020305,0601020304,call,Relay2
 2021-01-02T19:55:00Z,0,0601020304,0601020305,sms,Relay2

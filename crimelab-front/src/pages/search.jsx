@@ -26,7 +26,7 @@ const Search = () => {
         const formData = new FormData();
         formData.append('file', file);
 
-        fetch(`${process.env.REACT_APP_API_URL}/fadette/csv`, {
+        fetch(`${process.env.REACT_APP_API_URL}/fadettes/csv`, {
             method: 'POST',
             body: formData,
         })
