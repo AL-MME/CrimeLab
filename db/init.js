@@ -219,6 +219,11 @@ const testimoniesId = db.testimonies.insertMany([
       "Je suis allé au cinéma, quand je suis revenu, ma voiture n'était plus là. J'ai vu deux hommes, l'un grand et l'autre petit, s'enfuir à bord de ma Renault Mégane grise.",
     date: new Date("2024-01-01"),
   },
+  {
+    person: personsId.insertedIds[7],
+    description: "J'étais chez ma soeur, je suis rentrée et j'ai vu que la porte était ouverte. J'ai appelé la police et ils ont constaté que des bijoux avaient disparu.",
+    date: new Date("2024-01-02"),
+  },
 ]);
 
 sleep(1000);
@@ -250,17 +255,11 @@ const casesId = db.cases.insertMany([
     suspects: [personsId.insertedIds[6]],
     witnesses: [],
     victims: [personsId.insertedIds[7]],
-    testimonies: [],
+    testimonies: [testimoniesId.insertedIds[3]],
   },
 ]);
 
 sleep(1000);
-
-db.testimonies.update(
-  {},
-  { $set: { case: casesId.insertedIds[0] } },
-  { multi: true }
-);
 
 const fadettesId = db.fadettes.insertMany([
   {

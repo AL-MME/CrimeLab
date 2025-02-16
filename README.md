@@ -16,7 +16,7 @@ Une voiture a été signalée volée. Le propriétaire a découvert le vol en so
 
 ### 🧩 Scénario 2 : Sans relations (avec bonus CSV)
 
-Un vol de bijoux a été commis dans une maison à Montpeliier, le 2 janvier 2024 à 20h. Le principal suspect est un ancien serrurier. L'enquête vise à déterminer s'il aurait pu agir avec un complice.
+Un vol de bijoux a été commis dans une maison à Montpellier, le 2 janvier 2024 à 20h. Le principal suspect est un ancien serrurier. L'enquête vise à déterminer s'il aurait pu agir avec un complice.
 
 ## 🛠️ Technologies utilisées
 
