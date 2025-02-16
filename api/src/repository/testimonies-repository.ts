@@ -29,17 +29,4 @@ export class TestimoniesRepository {
             throw new Error('Failed to retrieve testimonies without case');
         }
     }
-
-    static async readAllWithNoCaseByIds(ids: string[]): Promise<ITestimonie[]> {
-        try {
-            console.log("passe dans readAllWithNoCaseByIds")
-            console.log(ids)
-            const test = await Testimonie.find({ case: { $eq: null }, person: { $in: ids } }).exec();
-            console.log(test)
-            return test
-        } catch (error) {
-            throw new Error('Failed to retrieve testimonies without case for given IDs');
-        }
-    }
-
 }

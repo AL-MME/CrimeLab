@@ -3,7 +3,7 @@ import AddPersonPopup from "./popUpAddPerson";
 
 const API_URL = process.env.REACT_APP_API_URL;
 
-const AddTestimoniesPopup = ({ onClose, onAdd, onAddPerson }) => {
+const AddTestimoniesPopup = ({ onClose, onAdd, onAddPerson, selectedPersonIds}) => {
     const [formData, setFormData] = useState({
         person: "",
         description: "",
@@ -20,7 +20,14 @@ const AddTestimoniesPopup = ({ onClose, onAdd, onAddPerson }) => {
 
     const fetchPersons = async () => {
         try {
-            const response = await fetch(`${API_URL}/persons`);
+            const response = await fetch(`${API_URL}/persons/get/byIds`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(selectedPersonIds),
+            });
+
             if (!response.ok) throw new Error("Erreur lors de la récupération des personnes");
             const personsData = await response.json();
             setAllPersons(personsData);

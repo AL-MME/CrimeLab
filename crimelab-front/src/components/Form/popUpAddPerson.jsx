@@ -15,6 +15,7 @@ const AddPersonPopup = ({ onClose, onAdd, onAddLocation}) => {
 
     const API_URL = process.env.REACT_APP_API_URL;
 
+
     const handleChange = (e) => {
 
         const { id, value } = e.target;

@@ -2,6 +2,7 @@ import { PersonsRepository } from '../repository/persons-repository';
 import { IPerson } from '../models/Person';
 import { isObjectId } from '../core/Utils';
 import { BadRequestError } from '../core/CustomError';
+import {ITestimonie, Testimonie} from "../models/Testimonie";
 
 export class PersonsService {
     static async createPerson(caseData: Partial<IPerson>): Promise<IPerson> {
@@ -31,5 +32,9 @@ export class PersonsService {
             throw new BadRequestError('personId is not a valid ObjectId');
         }
         return await PersonsRepository.delete(personId);
+    }
+
+    static async getPeronsByIds(personId: string): Promise<IPerson | null> {
+        return await PersonsRepository.getPeronsByIds(personId);
     }
 }
