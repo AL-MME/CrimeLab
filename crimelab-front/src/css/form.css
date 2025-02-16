@@ -1,0 +1,262 @@
+/* Mise en page globale */
+.page-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-image: url('../assets/background.webp');
+    background-size: cover;
+    background-position: center;
+    padding: 20px;
+    height: 100vh; /* S'assure que le formulaire s'adapte à la hauteur de l'écran */
+    overflow: hidden; /* Empêche le débordement */
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #2a2a3a;
+    border-radius: 10px;
+    padding: 25px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    width: 90%;
+    max-width: 800px;
+    height: 90vh; /* Hauteur du formulaire limitée */
+    overflow-y: auto; /* Ajoute un scroll vertical si nécessaire */
+}
+
+.container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.container::-webkit-scrollbar-thumb {
+    background: #444455;
+    border-radius: 10px;
+}
+
+.container::-webkit-scrollbar-thumb:hover {
+    background: #444455;
+}
+
+/* Style du formulaire */
+.form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+    color: #ffffff;
+}
+
+.label {
+    font-size: 16px;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    color: #fff;
+    margin-bottom: 5px;
+}
+
+input, select, textarea {
+    width: 100%;
+    height: 40px;
+    background-color: #1c1c2e;
+    color: #ffffff;
+    border-radius: 5px;
+    border: 1px solid #2a2a3a;
+    padding: 8px;
+    font-size: 14px;
+    outline: none;
+}
+
+textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: #007bff;
+}
+
+.testt {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+.witness, .date {
+    flex: 1;
+}
+
+.person-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
+.person-selection {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.person-select {
+    flex: 1;
+    padding: 8px;
+}
+
+.selected-person {
+    list-style: none;
+    padding: 0;
+    margin-top: 10px;
+}
+
+.selected-person li {
+    background: #505065;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.selected-victims button {
+    background: none;
+    border: none;
+    color: red;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* Boutons */
+.button-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.button {
+    width: 50%;
+    height: 40px;
+    background-color: #007bff;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.button:hover {
+    background-color: #0056b3;
+}
+
+/* Popup */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.popup-content {
+    background: #232331;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    width: 400px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.popup-content h2 {
+    margin-bottom: 15px;
+}
+
+.popup-content .popup-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: white;
+    cursor: pointer;
+}
+
+.popup-content .input-field {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    background-color: #14141C;
+    border: 1px solid #14141C;
+    color: white;
+    border-radius: 5px;
+}
+
+.popup-content .popup-button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.popup-content .popup-button:hover {
+    background-color: #0056b3;
+}
+
+.page-container {
+    position: relative;
+    z-index: 1;
+}
+
+.crime-date-container {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+}
+
+.crime-date-container .label {
+    flex: 1;
+}
+
+.crime-date-container input {
+    width: 100%;
+}
+
+.person-selection .button {
+    margin-top: 0;
+    width: 30%;
+    padding: 5px 10px;
+    font-size: 14px;
+    height: 40px;
+}
+
+.person-selection {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
