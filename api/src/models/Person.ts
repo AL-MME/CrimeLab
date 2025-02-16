@@ -6,6 +6,7 @@ interface IPerson extends Document {
     age: number;
     location: string;
     call_history: string[];
+    phone: string;
 }
 
 const PersonSchema: Schema = new Schema({
@@ -14,6 +15,7 @@ const PersonSchema: Schema = new Schema({
     age: { type: Number, required: true },
     location: { type: String, required: true },
     call_history: { type: [String], default: [], required: false },
+    phone: { type: String, required: true }
 }, {
     versionKey: false
 });

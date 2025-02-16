@@ -8,6 +8,15 @@ export class FadettesService {
         return await FadettesRepository.create(fadetteData);
     }
 
+    static async createFadettesFromCsv(fadetteData: Partial<IFadette>[]) {
+        for (var fadette of fadetteData) {
+            fadette.caller = await FadettesRepository.getUserIdByPhoneNumber(fadette.caller ?? '');
+            fadette.receiver = await FadettesRepository.getUserIdByPhoneNumber(fadette.receiver ?? "");
+            await FadettesRepository.create(fadette);
+        }
+        return;
+    }
+
     static async getFadetteById(fadetteId: string): Promise<IFadette | null> {
         if (!isObjectId(fadetteId)) {
             throw new BadRequestError('fadetteId is not a valid ObjectId');

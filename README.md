@@ -14,9 +14,9 @@ CrimeLab est un projet de base de données NoSQL ayant pour objectif de partir d
 
 Une voiture a été signalée volée. Le propriétaire a découvert le vol en sortant du cinéma de La Défense, le 1er janvier 2024 à 20h. Les forces de l'ordre ont été alertées grâce aux témoignages recueillis sur place. Le suspect Lucas a été interpellé, et ses complices sont actuellement recherchés.
 
-### 🧩 Scénario 2 : Sans relations
+### 🧩 Scénario 2 : Sans relations (avec bonus CSV)
 
-Un vol de bijoux a été commis dans une maison à Bordeaux, le 2 janvier 2024 à 23h. Le principal suspect est un ancien serrurier. L'enquête vise à déterminer s'il aurait pu agir avec un complice.
+Un vol de bijoux a été commis dans une maison à Montpellier, le 2 janvier 2024 à 20h. Le principal suspect est un ancien serrurier. L'enquête vise à déterminer s'il aurait pu agir avec un complice.
 
 ## 🛠️ Technologies utilisées
 
