@@ -81,6 +81,3 @@ Accédez à l'interface utilisateur via [http://localhost:3000](http://localhost
 
 - Assurez-vous que Docker est installé et en cours d'exécution.
 - MongoDB doit être correctement initialisé avant de lancer l'application.
-
-Bon développement et bonne enquête ! 🧠🔍
-
