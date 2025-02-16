@@ -21,4 +21,12 @@ export class TestimoniesRepository {
     static async delete(testimonieId: string): Promise<ITestimonie | null> {
         return await Testimonie.findByIdAndDelete(testimonieId).exec();
     }
+
+    static async readAllWithNoCase(): Promise<ITestimonie[]> {
+        try {
+            return await Testimonie.find({case: { $eq: null }}).exec();
+        } catch (error) {
+            throw new Error('Failed to retrieve testimonies without case');
+        }
+    }
 }

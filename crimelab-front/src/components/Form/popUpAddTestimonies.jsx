@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import AddPersonPopup from "./popUpAddPerson"; // Importation de la popup d'ajout de personne
+import AddPersonPopup from "./popUpAddPerson";
 
 const API_URL = process.env.REACT_APP_API_URL;
 
-const AddTestimoniesPopup = ({ onClose, onAdd, onAddPerson }) => {
+const AddTestimoniesPopup = ({ onClose, onAdd, selectedPersonIds}) => {
     const [formData, setFormData] = useState({
         person: "",
         description: "",
@@ -11,14 +11,22 @@ const AddTestimoniesPopup = ({ onClose, onAdd, onAddPerson }) => {
     });
 
     const [allPersons, setAllPersons] = useState([]);
-    const [isPopupOpenPerson, setIsPopupOpenPerson] = useState(false);
+    const [dateError, setDateError] = useState("");
+
     useEffect(() => {
         fetchPersons();
     }, []);
 
     const fetchPersons = async () => {
         try {
-            const response = await fetch(`${API_URL}/persons`);
+            const response = await fetch(`${API_URL}/persons/get/byIds`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(selectedPersonIds),
+            });
+
             if (!response.ok) throw new Error("Erreur lors de la récupération des personnes");
             const personsData = await response.json();
             setAllPersons(personsData);
@@ -37,6 +45,15 @@ const AddTestimoniesPopup = ({ onClose, onAdd, onAddPerson }) => {
 
     const handleSubmitTestimonie = async (e) => {
         e.preventDefault();
+
+        const today = new Date().toISOString().split("T")[0];
+        if (formData.date > today) {
+            setDateError("La date du témoignage ne peut pas etre dans le futur.");
+            return;
+        } else {
+            setDateError("");
+        }
+
         try {
             const response = await fetch(`${API_URL}/testimonies`, {
                 method: "POST",
@@ -58,26 +75,6 @@ const AddTestimoniesPopup = ({ onClose, onAdd, onAddPerson }) => {
         }
     };
 
-    const handleOpenPopupPerson = () => {
-        setIsPopupOpenPerson(true);
-    };
-
-    const handleClosePopupPerson = () => {
-        setIsPopupOpenPerson(false);
-    };
-
-    const handleAddPerson = (newPerson) => {
-        setAllPersons((prevPersons) => [...prevPersons, newPerson]);
-        setFormData((prevData) => ({
-            ...prevData,
-            person: newPerson._id,
-        }));
-
-        if (onAddPerson) {
-            onAddPerson(newPerson);
-        }
-    };
-
     return (
         <div className="popup-overlay">
             <div className="popup-content">
@@ -94,9 +91,6 @@ const AddTestimoniesPopup = ({ onClose, onAdd, onAddPerson }) => {
                                 </option>
                             ))}
                         </select>
-                        <button type="button" className="button small-button" onClick={handleOpenPopupPerson}>
-                            Ajouter une Personne
-                        </button>
                     </div>
 
                     <label>Description :</label>
@@ -104,14 +98,12 @@ const AddTestimoniesPopup = ({ onClose, onAdd, onAddPerson }) => {
 
                     <label>Date :</label>
                     <input type="date" id="date" value={formData.date} onChange={handleChange} required />
+                    {dateError && <p className="error-message">{dateError}</p>}
+
 
                     <button type="submit" className="popup-button">Enregistrer</button>
                 </form>
             </div>
-
-            {isPopupOpenPerson && (
-                <AddPersonPopup onClose={handleClosePopupPerson} onAdd={handleAddPerson} />
-            )}
         </div>
     );
 };

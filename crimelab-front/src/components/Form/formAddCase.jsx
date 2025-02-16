@@ -3,6 +3,7 @@ import AddPersonPopup from "./popUpAddPerson";
 import AddLocationPopup from "./popUpAddLocation";
 import "../../css/form.css";
 import AddTestimoniesPopup from "./popUpAddTestimonies";
+import {useNavigate} from "react-router-dom";
 
 const FormAddCase = () => {
     const [formData, setFormData] = useState({
@@ -12,6 +13,8 @@ const FormAddCase = () => {
         description: "",
     });
 
+    const navigate = useNavigate();
+
     const API_URL = process.env.REACT_APP_API_URL;
 
     const [victims, setVictims] = useState([]);
@@ -20,11 +23,13 @@ const FormAddCase = () => {
     const [testimonies, setTestimonies] = useState([]);
     const [selectedLocation, setSelectedLocation] = useState(null);
     const [allPersons, setAllPersons] = useState([]);
+    const [allcities, setAllcities] = useState([]);
     const [allLocations, setAllLocations] = useState([]);
     const [allTestimonies, setAllTestimonies] = useState([]);
     const [isPopupOpenPerson, setIsPopupOpenPerson] = useState(false);
     const [isPopupOpenLocation, setIsPopupOpenLocation] = useState(false);
     const [isPopupOpenTestimonie, setIsPopupOpenTestimonie] = useState(false);
+    const [dateError, setDateError] = useState("");
 
     const handleOpenPopupPerson = () => setIsPopupOpenPerson(true);
     const handleClosePopupPerson = () => setIsPopupOpenPerson(false);
@@ -56,12 +61,14 @@ const FormAddCase = () => {
             }
         };
 
-        const fetchTestimonies = async () => {
+        const fetchCities = async () => {
             try {
-                const response = await fetch(`${API_URL}/testimonies`);
-                if (!response.ok) throw new Error("Erreur lors de la récupération des témoignages");
-                const testimonies = await response.json();
-                setAllTestimonies(testimonies);
+                const response = await fetch(`${API_URL}/cities`);
+                if (!response.ok) {
+                    throw new Error("Erreur lors de la récupération des villes");
+                }
+                const data = await response.json();
+                setAllcities(data);
             } catch (error) {
                 console.error("Erreur:", error);
             }
@@ -69,8 +76,17 @@ const FormAddCase = () => {
 
         fetchPersons();
         fetchLocations();
-        fetchTestimonies();
-    }, [API_URL]);
+        fetchCities();
+    }, []);
+
+    const getSelectedPersonIds = () => {
+        const personIds =  [
+            ...victims.map(v => v._id),
+            ...suspects.map(s => s._id),
+            ...witnesses.map(w => w._id)
+        ];
+        return personIds;
+    };
 
     const handleChange = (e) => {
         const { id, value } = e.target;
@@ -88,9 +104,13 @@ const FormAddCase = () => {
         setAllLocations((prevLocations) => [...prevLocations, newLocation]);
     };
 
+    const handleAddCity = (newCity) => {
+        setAllcities((prevCities) => [...prevCities, newCity]);
+    };
+
     const handleAddTestimonie = (newTestimonie) => {
         setAllTestimonies((prevTestimonies) => [...prevTestimonies, newTestimonie]);
-        setTestimonies((prevTestimonies) => [...prevTestimonies, newTestimonie]); // Ajout immédiat dans la sélection
+        setTestimonies((prevTestimonies) => [...prevTestimonies, newTestimonie]);
     };
 
     const handleSelectVictim = (e) => {
@@ -108,15 +128,6 @@ const FormAddCase = () => {
 
         if (selectedPerson && !suspects.some(s => s._id === selectedPersonId)) {
             setSuspects([...suspects, selectedPerson]);
-        }
-    };
-
-    const handleSelectTestimonies = (e) => {
-        const selectedTestimonieId = e.target.value;
-        const selectedTestimonie = allTestimonies.find(testimonie => testimonie._id === selectedTestimonieId);
-
-        if (selectedTestimonie && !testimonies.some(t => t._id === selectedTestimonieId)) {
-            setTestimonies([...testimonies, selectedTestimonie]);
         }
     };
 
@@ -155,9 +166,16 @@ const FormAddCase = () => {
         }));
     };
 
-
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        const today = new Date().toISOString().split("T")[0];
+        if (formData.date > today) {
+            setDateError("La date du crime ne peut pas être dans le futur.");
+            return;
+        } else {
+            setDateError("");
+        }
 
         const caseData = {
             type: formData.crimeName,
@@ -169,8 +187,6 @@ const FormAddCase = () => {
             victims: victims.map(v => v._id),
             testimonies: testimonies.map(t => t._id),
         };
-
-        console.log(caseData);
 
         try {
             const response = await fetch(`${API_URL}/cases`, {
@@ -186,9 +202,8 @@ const FormAddCase = () => {
             }
 
             const newCase = await response.json();
-            console.log("Affaire ajoutée:", newCase);
 
-            const caseId = newCase._id;  // L'ID du cas nouvellement créé
+            const caseId = newCase._id;
 
             for (const testimonie of testimonies) {
                 await updateTestimonieWithCaseId(testimonie._id, caseId);
@@ -205,11 +220,9 @@ const FormAddCase = () => {
             setWitnesses([]);
             setTestimonies([]);
             setSelectedLocation(null);
-
-            alert("Affaire ajoutée avec succès !");
+            navigate(`/`)
         } catch (error) {
             console.error("Erreur:", error);
-            alert("Une erreur est survenue.");
         }
     };
 
@@ -229,9 +242,7 @@ const FormAddCase = () => {
                 throw new Error(`Erreur lors de la mise à jour du témoignage ${testimonieId}`);
             }
 
-            const updatedTestimonie = await response.json();
-            console.log("updatedTestimonie : ", updatedTestimonie)
-            console.log("Témoignage mis à jour:", updatedTestimonie);
+            await response.json();
         } catch (error) {
             console.error("Erreur lors de la mise à jour du témoignage:", error);
         }
@@ -241,7 +252,13 @@ const FormAddCase = () => {
         <div className="page-container">
             <div className="container">
                 <form className="form-container" onSubmit={handleSubmit}>
-
+                    <button
+                        type="button"
+                        className="close-button"
+                        onClick={() => navigate(`/`)}
+                    >
+                        ❌
+                    </button>
 
                     <div className="testt">
                         <div className="label">
@@ -251,6 +268,7 @@ const FormAddCase = () => {
                         <div className="label">
                             <label>Date</label>
                             <input type="date" id="date" onChange={handleChange} required />
+                            {dateError && <p className="error-message">{dateError}</p>}
                         </div>
                     </div>
 
@@ -260,9 +278,14 @@ const FormAddCase = () => {
                         <div className="person-selection">
                             <select id="lieu" onChange={handleSelectLocation} required>
                                 <option value="">Sélectionnez un lieu</option>
-                                {allLocations.map((location) => (
-                                    <option key={location._id} value={location._id}>{location.street}</option>
-                                ))}
+                                {allLocations.map((location) => {
+                                    const city = allcities.find(city => city._id === location.city);
+                                    return (
+                                        <option key={location._id} value={location._id}>
+                                            {location.street}, {city ? city.name : "Ville inconnue"}
+                                        </option>
+                                    );
+                                })}
                             </select>
                             <button type="button" className="button small-button" onClick={handleOpenPopupLocation}>
                                 Ajouter
@@ -270,14 +293,10 @@ const FormAddCase = () => {
                         </div>
                     </div>
 
-
-
                     <div className="label">
                         <label>Description</label>
                         <textarea id="description" onChange={handleChange} required></textarea>
                     </div>
-
-
 
                     <div className="person-container">
                         <label>Victimes</label>
@@ -299,11 +318,9 @@ const FormAddCase = () => {
                         {victims.map((victim) => (
                             <li key={victim._id}>
                                 {victim.firstname} {victim.lastname}
-                                <button type="button" onClick={() => handleRemoveVictim(victim._id)}>❌</button>
+                                <button type="button" className="close-list" onClick={() => handleRemoveVictim(victim._id)}>❌</button>
                             </li>
                         ))}
-
-
                     </ul>
 
                     <div className="person-container">
@@ -326,7 +343,7 @@ const FormAddCase = () => {
                         {suspects.map((suspect) => (
                             <li key={suspect._id}>
                                 {suspect.firstname} {suspect.lastname}
-                                <button type="button" onClick={() => handleRemoveSuspect(suspect._id)}>❌</button>
+                                <button type="button" className="close-list" onClick={() => handleRemoveSuspect(suspect._id)}>❌</button>
                             </li>
                         ))}
                     </ul>
@@ -351,7 +368,7 @@ const FormAddCase = () => {
                         {witnesses.map((witness) => (
                             <li key={witness._id}>
                                 {witness.firstname} {witness.lastname}
-                                <button type="button" onClick={() => handleRemoveWitness(witness._id)}>❌</button>
+                                <button type="button" className="close-list" onClick={() => handleRemoveWitness(witness._id)}>❌</button>
                             </li>
                         ))}
                     </ul>
@@ -359,16 +376,8 @@ const FormAddCase = () => {
                     <div className="person-container">
                         <label>Témoignage</label>
                         <div className="person-selection">
-                            <select onChange={handleSelectTestimonies} className="person-select">
-                                <option value="">Sélectionnez un Témoignage</option>
-                                {allTestimonies.map((testimonie) => (
-                                    <option key={testimonie._id} value={testimonie._id}>
-                                        {testimonie.description}
-                                    </option>
-                                ))}
-                            </select>
                             <button type="button" className="button small-button" onClick={handleOpenPopupTestimonie}>
-                                Ajouter
+                                Ajouter un Témoignage
                             </button>
                         </div>
                     </div>
@@ -387,9 +396,9 @@ const FormAddCase = () => {
                 </form>
             </div>
 
-            {isPopupOpenPerson && <AddPersonPopup onClose={handleClosePopupPerson} onAdd={handleAddPerson} />}
-            {isPopupOpenLocation && <AddLocationPopup onClose={handleClosePopupLocation} onAdd={handleAddLocation} />}
-            {isPopupOpenTestimonie && (<AddTestimoniesPopup onClose={handleClosePopupTestimonie} onAdd={handleAddTestimonie} onAddPerson={handleAddPerson}/>)}
+            {isPopupOpenPerson && (<AddPersonPopup onClose={handleClosePopupPerson} onAdd={handleAddPerson} onAddLocation={handleAddLocation}/>)}
+            {isPopupOpenLocation && <AddLocationPopup onClose={handleClosePopupLocation} onAdd={handleAddLocation} onAddCity={handleAddCity} />}
+            {isPopupOpenTestimonie && (<AddTestimoniesPopup onClose={handleClosePopupTestimonie} onAdd={handleAddTestimonie} selectedPersonIds={getSelectedPersonIds()} />)}
         </div>
     );
 };

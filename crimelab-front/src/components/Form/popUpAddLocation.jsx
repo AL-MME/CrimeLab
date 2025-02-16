@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import AddCityPopup from "./popUpAddCity";
 
-const AddLocationPopup = ({ onClose, onAdd }) => {
+const AddLocationPopup = ({ onClose, onAdd, onAddCity}) => {
     const [locationData, setLocationData] = useState({
         street: "",
         city: "",
@@ -63,6 +63,8 @@ const AddLocationPopup = ({ onClose, onAdd }) => {
 
     const handleCityAdded = (newCity) => {
         setCities((prevCities) => [...prevCities, newCity]);
+        onAddCity(newCity);
+
         setIsPopupOpenCity(false);
     };
 
@@ -92,7 +94,7 @@ const AddLocationPopup = ({ onClose, onAdd }) => {
                         <select id="city" value={locationData.city} onChange={handleChange} required>
                             <option value="">Sélectionner une ville</option>
                             {cities.map((city) => (
-                                <option key={city._id} value={city.name}>
+                                <option key={city._id} value={city._id}>
                                     {city.name} ({city.country})
                                 </option>
                             ))}
@@ -103,17 +105,19 @@ const AddLocationPopup = ({ onClose, onAdd }) => {
                     </div>
 
                     <input
-                        type="text"
+                        type="number"
                         id="lat"
                         placeholder="Latitude"
                         onChange={handleChange}
+                        step="0.000001"
                         required
                     />
                     <input
-                        type="text"
+                        type="number"
                         id="lon"
                         placeholder="Longitude"
                         onChange={handleChange}
+                        step="0.000001"
                         required
                     />
 

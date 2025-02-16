@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { PersonsService } from '../service/persons-service';
 import { IPerson } from '../models/Person';
+import {TestimoniesService} from "../service/testimonies-service";
 
 export class PersonsController {
     static async createPerson(req: Request, res: Response): Promise<void> {
@@ -65,6 +66,19 @@ export class PersonsController {
             } else {
                 res.status(404).json({ message: 'Person not found' });
             }
+        } catch (error: any) {
+            res.status(500).json({ error: error.message });
+        }
+    }
+
+    static async getAllPersonsByIds(req: Request, res: Response): Promise<void> {
+        try {
+            const ids = req.body;
+            let persons;
+
+            persons = await PersonsService.getPeronsByIds(ids);
+
+            res.status(200).json(persons);
         } catch (error: any) {
             res.status(500).json({ error: error.message });
         }
