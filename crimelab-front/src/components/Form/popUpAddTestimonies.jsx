@@ -3,7 +3,7 @@ import AddPersonPopup from "./popUpAddPerson";
 
 const API_URL = process.env.REACT_APP_API_URL;
 
-const AddTestimoniesPopup = ({ onClose, onAdd, onAddPerson, selectedPersonIds}) => {
+const AddTestimoniesPopup = ({ onClose, onAdd, selectedPersonIds}) => {
     const [formData, setFormData] = useState({
         person: "",
         description: "",
@@ -11,7 +11,6 @@ const AddTestimoniesPopup = ({ onClose, onAdd, onAddPerson, selectedPersonIds}) 
     });
 
     const [allPersons, setAllPersons] = useState([]);
-    const [isPopupOpenPerson, setIsPopupOpenPerson] = useState(false);
     const [dateError, setDateError] = useState("");
 
     useEffect(() => {
@@ -49,7 +48,7 @@ const AddTestimoniesPopup = ({ onClose, onAdd, onAddPerson, selectedPersonIds}) 
 
         const today = new Date().toISOString().split("T")[0];
         if (formData.date > today) {
-            setDateError("La date du crime ne peut pas être dans le futur.");
+            setDateError("La date du témoignage ne peut pas etre dans le futur.");
             return;
         } else {
             setDateError("");
@@ -76,26 +75,6 @@ const AddTestimoniesPopup = ({ onClose, onAdd, onAddPerson, selectedPersonIds}) 
         }
     };
 
-    const handleOpenPopupPerson = () => {
-        setIsPopupOpenPerson(true);
-    };
-
-    const handleClosePopupPerson = () => {
-        setIsPopupOpenPerson(false);
-    };
-
-    const handleAddPerson = (newPerson) => {
-        setAllPersons((prevPersons) => [...prevPersons, newPerson]);
-        setFormData((prevData) => ({
-            ...prevData,
-            person: newPerson._id,
-        }));
-
-        if (onAddPerson) {
-            onAddPerson(newPerson);
-        }
-    };
-
     return (
         <div className="popup-overlay">
             <div className="popup-content">
@@ -112,9 +91,6 @@ const AddTestimoniesPopup = ({ onClose, onAdd, onAddPerson, selectedPersonIds}) 
                                 </option>
                             ))}
                         </select>
-                        <button type="button" className="button small-button" onClick={handleOpenPopupPerson}>
-                            Ajouter une Personne
-                        </button>
                     </div>
 
                     <label>Description :</label>
@@ -128,10 +104,6 @@ const AddTestimoniesPopup = ({ onClose, onAdd, onAddPerson, selectedPersonIds}) 
                     <button type="submit" className="popup-button">Enregistrer</button>
                 </form>
             </div>
-
-            {isPopupOpenPerson && (
-                <AddPersonPopup onClose={handleClosePopupPerson} onAdd={handleAddPerson} />
-            )}
         </div>
     );
 };

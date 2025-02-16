@@ -202,7 +202,6 @@ const FormAddCase = () => {
             }
 
             const newCase = await response.json();
-            console.log("Affaire ajoutée:", newCase);
 
             const caseId = newCase._id;
 
@@ -243,9 +242,7 @@ const FormAddCase = () => {
                 throw new Error(`Erreur lors de la mise à jour du témoignage ${testimonieId}`);
             }
 
-            const updatedTestimonie = await response.json();
-            console.log("updatedTestimonie : ", updatedTestimonie)
-            console.log("Témoignage mis à jour:", updatedTestimonie);
+            await response.json();
         } catch (error) {
             console.error("Erreur lors de la mise à jour du témoignage:", error);
         }
@@ -401,7 +398,7 @@ const FormAddCase = () => {
 
             {isPopupOpenPerson && (<AddPersonPopup onClose={handleClosePopupPerson} onAdd={handleAddPerson} onAddLocation={handleAddLocation}/>)}
             {isPopupOpenLocation && <AddLocationPopup onClose={handleClosePopupLocation} onAdd={handleAddLocation} onAddCity={handleAddCity} />}
-            {isPopupOpenTestimonie && (<AddTestimoniesPopup onClose={handleClosePopupTestimonie} onAdd={handleAddTestimonie} onAddPerson={handleAddPerson} selectedPersonIds={getSelectedPersonIds()} />)}
+            {isPopupOpenTestimonie && (<AddTestimoniesPopup onClose={handleClosePopupTestimonie} onAdd={handleAddTestimonie} selectedPersonIds={getSelectedPersonIds()} />)}
         </div>
     );
 };
