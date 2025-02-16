@@ -60,6 +60,9 @@ const handleInsertTestimony = async (change, tx) => {
 
 const handleUpdateTestimony = async (change, tx) => {
   const updatedFields = change.updateDescription.updatedFields;
+  if(updatedFields.date) {
+    updatedFields.date = updatedFields.date.toString();
+  }
   console.log("Updating testimony fields:", updatedFields);
 
   await tx.run(

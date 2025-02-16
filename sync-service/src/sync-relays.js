@@ -59,6 +59,9 @@ const handleInsertRelay = async (change, tx) => {
 
 const handleUpdateRelay = async (change, tx) => {
   const updatedFields = change.updateDescription.updatedFields;
+  if (updatedFields.location) {
+    updatedFields.location = updatedFields.location.toString();
+  }
   console.log("Updating relay fields:", updatedFields);
 
   await tx.run(
