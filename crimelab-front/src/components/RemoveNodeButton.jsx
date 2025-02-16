@@ -18,7 +18,6 @@ export const RemoveNodeButton = ({ nodeId, nodeCategory, onDelete }) => {
             if (response.ok) {
                 console.log("Node deleted");
                 onDelete();
-                window.location.reload();
             } else {
                 console.log("Error deleting node");
             }

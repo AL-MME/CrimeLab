@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import "../css/details.css";
 import { FaTimes } from "react-icons/fa";
-import {RemoveNodeButton} from "./RemoveNodeButton";
+import { RemoveNodeButton } from "./RemoveNodeButton";
+import {CategoryAdapter} from "../utils/categoryAdapter";
+import EditNodeButton from "./NodeEdition/EditNodeButton";
 
 export const NodeDetails = ({ node, closeDetails, category, onNodeChange }) => {
     return (
@@ -22,6 +24,7 @@ export const NodeDetails = ({ node, closeDetails, category, onNodeChange }) => {
                     );
                 })}
             </div>
+            <EditNodeButton nodeId={node.id} nodeCategory={CategoryAdapter.adaptCategory(category)} />
             <RemoveNodeButton nodeId={node.id} nodeCategory={category} onDelete={() => onNodeChange()} />
         </div>
     );
