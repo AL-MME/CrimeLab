@@ -23,6 +23,7 @@ function PersonEdition() {
 
             const data = await response.json();
             setPersonData(data);
+            console.log(data);
             if (data.location) {
                 setSelectedLocationId(data.location);
             }
@@ -119,6 +120,17 @@ function PersonEdition() {
                             id="age"
                             name="age"
                             value={personData?.age || ''}
+                            onChange={handleInputChange}
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label htmlFor="phone">Phone</label>
+                        <input
+                            type="text"
+                            id="phone"
+                            name="phone"
+                            value={personData?.phone || ''}
                             onChange={handleInputChange}
                         />
                     </div>

@@ -11,6 +11,8 @@ export class CategoryAdapter {
                 return "relays";
             case "Case":
                 return "cases";
+            case "Testimony":
+                return "testimonies";
             default:
                 return "persons";
         }

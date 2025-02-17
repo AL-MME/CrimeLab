@@ -36,7 +36,7 @@
         color: white;
 }
 
-.form-group input, .form-group select {
+.form-group input, .form-group select, .form-group textarea {
         width: 100%;
         padding: 8px;
         border: 1px solid #ccc;
@@ -45,10 +45,54 @@
         background-color: rgba(255, 255, 255, 0.9);
 }
 
-.form-group input:focus, .form-group select:focus {
+.form-group select option {
+        background-color: white;
+        color: black;
+}
+
+.form-group select[multiple] {
+        height: 100px;
+}
+
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
         outline: none;
         border-color: #007bff;
         box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.selected-items {
+        margin-top: 10px;
+}
+
+.selected-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 5px;
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 4px;
+        margin-bottom: 5px;
+}
+
+.selected-item span {
+        color: black;
+}
+
+.selected-item button {
+        background-color: #ff4d4d;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+}
+
+.selected-item button:hover {
+        background-color: #cc0000;
 }
 
 .submit-btn {
@@ -65,4 +109,10 @@
 
 .submit-btn:hover {
         background-color: #0056b3;
+}
+
+.scrollable {
+        max-height: 80%;
+        overflow-y: auto;
+        padding: 50px;
 }
