@@ -61,6 +61,29 @@ const handleUpdateRelay = async (change, tx) => {
   const updatedFields = change.updateDescription.updatedFields;
   if (updatedFields.location) {
     updatedFields.location = updatedFields.location.toString();
+
+    await tx.run(
+      `
+      MATCH (r:Relay {id: $id})-[c:LOCATED_IN]->()
+      DELETE c
+      `,
+      {
+        id: change.documentKey._id.toString(),
+      }
+    );
+
+    await tx.run(
+      `
+      MATCH (r:Relay {id: $id})
+      WITH r, $location AS locationId
+      MATCH (l:Location {id: locationId})
+      MERGE (r)-[:LOCATED_IN]->(l)
+      `,
+      {
+        id: change.documentKey._id.toString(),
+        location: updatedFields.location,
+      }
+    );
   }
   console.log("Updating relay fields:", updatedFields);
 
