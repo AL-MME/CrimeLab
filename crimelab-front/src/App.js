@@ -7,6 +7,7 @@ import CityEdition from "./components/NodeEdition/CityEdition";
 import LocationEdition from "./components/NodeEdition/LocationEdition";
 import RelayEdition from "./components/NodeEdition/RelayEdition";
 import TestimonyEdition from "./components/NodeEdition/TestimonyEdition";
+import CrimeEdition from "./components/NodeEdition/CrimeEdition";
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
         <Route path="/edit/locations/:id" element={<LocationEdition />} />
         <Route path="/edit/relays/:id" element={<RelayEdition />} />
         <Route path="/edit/testimonies/:id" element={<TestimonyEdition />} />
+        <Route path="/edit/cases/:id" element={<CrimeEdition />} />
       </Routes>
     </Router>
   );
