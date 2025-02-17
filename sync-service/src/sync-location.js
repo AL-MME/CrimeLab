@@ -63,6 +63,31 @@ const handleUpdateLocation = async (change, tx) => {
   const updatedFields = change.updateDescription.updatedFields;
   console.log("Updating location fields:", updatedFields);
 
+  if (updatedFields.city) {
+    updatedFields.city = updatedFields.city.toString();
+
+    await tx.run(
+      `
+      MATCH (l:Location {id: $id})-[r:LOCATED_IN]->()
+      DELETE r
+      `,
+      {
+        id: change.documentKey._id.toString(),
+      }
+    );
+
+    await tx.run(
+        `
+        MATCH (l:Location {id: $id}), (c:City {id: $city})
+        MERGE (l)-[:LOCATED_IN]->(c)
+        `,
+        {
+            id: change.documentKey._id.toString(),
+            city: updatedFields.city,
+        }
+        );
+  }
+
   await tx.run(
     `
     MATCH (l:Location {id: $id})
