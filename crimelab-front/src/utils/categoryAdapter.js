@@ -13,6 +13,8 @@ export class CategoryAdapter {
                 return "cases";
             case "Testimony":
                 return "testimonies";
+            case "Fadette":
+                return "fadettes";
             default:
                 return "persons";
         }
