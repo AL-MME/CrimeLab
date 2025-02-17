@@ -8,6 +8,7 @@ import LocationEdition from "./components/NodeEdition/LocationEdition";
 import RelayEdition from "./components/NodeEdition/RelayEdition";
 import TestimonyEdition from "./components/NodeEdition/TestimonyEdition";
 import CrimeEdition from "./components/NodeEdition/CrimeEdition";
+import FadetteEdition from "./components/NodeEdition/FadetteEdition";
 
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
         <Route path="/edit/relays/:id" element={<RelayEdition />} />
         <Route path="/edit/testimonies/:id" element={<TestimonyEdition />} />
         <Route path="/edit/cases/:id" element={<CrimeEdition />} />
+        <Route path="/edit/fadettes/:id" element={<FadetteEdition />} />
       </Routes>
     </Router>
   );

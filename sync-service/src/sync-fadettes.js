@@ -76,6 +76,19 @@ const handleInsert = async (change, tx) => {
 
 const handleUpdate = async (change, tx) => {
   const updatedFields = change.updateDescription.updatedFields;
+
+  if (updatedFields.date) {
+    updatedFields.date = updatedFields.date.toString();
+  }
+  if (updatedFields.caller) {
+    updatedFields.caller = updatedFields.caller.toString();
+  }
+    if (updatedFields.receiver) {
+    updatedFields.receiver = updatedFields.receiver.toString();
+    }
+    if (updatedFields.relay) {
+    updatedFields.relay = updatedFields.relay.toString();
+    }
   console.log("Updating fields:", updatedFields);
 
   await tx.run(
@@ -88,6 +101,37 @@ const handleUpdate = async (change, tx) => {
       updatedFields,
     }
   );
+
+  const relationships = [
+    {key: "caller", label: "Person", relation: "CALLER"},
+    {key: "receiver", label: "Person", relation: "RECEIVER"},
+    {key: "relay", label: "Relay", relation: "RELAYED_BY"}
+  ]
+
+    for (const {key, label, relation} of relationships) {
+        if (updatedFields[key]) {
+        await tx.run(
+            `
+            MATCH (f:Fadette {id: $id})-[r:${relation}]->()
+            DELETE r
+            `,
+            {id: change.documentKey._id.toString()}
+        );
+
+        await tx.run(
+            `
+            MATCH (f:Fadette {id: $id})
+            MATCH (n:${label} {id: $${key}})
+            MERGE (f)-[:${relation}]->(n)
+            `,
+            {
+            id: change.documentKey._id.toString(),
+            [key]: updatedFields[key].toString(),
+            }
+        );
+        }
+    }
+
 };
 
 const handleDelete = async (change, tx) => {
