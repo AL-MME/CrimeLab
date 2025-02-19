@@ -67,7 +67,7 @@ function TestimonyEdition() {
 
     return (
         <div className={'form-background'}>
-            <div className="testimony-edition">
+            <div className="node-edition">
                 <h1>Edit Testimony</h1>
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">

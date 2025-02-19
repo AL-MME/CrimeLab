@@ -18,7 +18,7 @@ export const NodeDetails = ({ node, closeDetails, category, onNodeChange }) => {
                         <div className="details-key-value-container" key={key}>
                             <p className="details-key-value">{key.charAt(0).toUpperCase() + key.slice(1)} :</p>
                             <p className="details-key-value">
-                                {isNaN(node[key]) && !isNaN(Date.parse(node[key])) ? new Date(node[key]).toLocaleDateString() : node[key]}
+                                {isNaN(node[key]) && !isNaN(Date.parse(node[key])) ? new Date(node[key]).toLocaleString() : node[key]}
                             </p>
                         </div>
                     );

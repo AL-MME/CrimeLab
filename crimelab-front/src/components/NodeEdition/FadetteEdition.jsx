@@ -107,7 +107,7 @@ function FadetteEdition() {
 
     return (
         <div className={'form-background'}>
-            <div className="fadette-edition">
+            <div className="node-edition">
                 <h1>Edit Fadette</h1>
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">

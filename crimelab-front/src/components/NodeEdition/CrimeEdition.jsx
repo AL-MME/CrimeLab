@@ -136,7 +136,7 @@ function CrimeEdition() {
 
     return (
         <div className={'form-background'}>
-            <div className="crime-edition scrollable">
+            <div className="node-edition scrollable">
                 <h1>Edit Crime</h1>
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
