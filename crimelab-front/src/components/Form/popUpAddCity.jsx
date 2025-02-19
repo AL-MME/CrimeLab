@@ -48,8 +48,8 @@ const AddCityPopup = ({ onClose, onAdd }) => {
                 <form onSubmit={handleAddCity}>
                     <input type="text" id="name" placeholder="Nom" onChange={handleChange} required />
                     <input type="text" id="country" placeholder="Pays" onChange={handleChange} required />
-                    <input type="number" id="lat" placeholder="Latitude" onChange={handleChange} required />
-                    <input type="number" id="lon" placeholder="Longitude" onChange={handleChange} required />
+                    <input type="number" id="lat" placeholder="Latitude" step="0.000001" onChange={handleChange} required />
+                    <input type="number" id="lon" placeholder="Longitude" step="0.000001" onChange={handleChange} required />
                     <input type="number" id="postal_code" placeholder="Code Postal" onChange={handleChange} required />
                     <button type="submit" className="popup-button">Enregistrer</button>
                 </form>

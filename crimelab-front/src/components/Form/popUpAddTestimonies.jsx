@@ -46,14 +46,8 @@ const AddTestimoniesPopup = ({ onClose, onAdd, selectedPersonIds}) => {
     const handleSubmitTestimonie = async (e) => {
         e.preventDefault();
 
-        const today = new Date().toISOString().split("T")[0];
-        if (formData.date > today) {
-            setDateError("La date du témoignage ne peut pas etre dans le futur.");
-            return;
-        } else {
-            setDateError("");
-        }
-
+        const today = new Date().toISOString();
+        formData.date = today;
         try {
             const response = await fetch(`${API_URL}/testimonies`, {
                 method: "POST",
@@ -95,11 +89,6 @@ const AddTestimoniesPopup = ({ onClose, onAdd, selectedPersonIds}) => {
 
                     <label>Description :</label>
                     <textarea id="description" value={formData.description} onChange={handleChange} required />
-
-                    <label>Date :</label>
-                    <input type="date" id="date" value={formData.date} onChange={handleChange} required />
-                    {dateError && <p className="error-message">{dateError}</p>}
-
 
                     <button type="submit" className="popup-button">Enregistrer</button>
                 </form>
